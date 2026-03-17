@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head><title>Create Icons</title></head>
+<body>
+<canvas id="canvas16" width="16" height="16"></canvas>
+<canvas id="canvas48" width="48" height="48"></canvas>
+<canvas id="canvas128" width="128" height="128"></canvas>
+<script>
+// 16x16
+const ctx16 = document.getElementById('canvas16').getContext('2d');
+ctx16.fillStyle = '#4CAF50';
+ctx16.fillRect(0, 0, 16, 16);
+ctx16.fillStyle = 'white';
+ctx16.font = 'bold 12px Arial';
+ctx16.textAlign = 'center';
+ctx16.textBaseline = 'middle';
+ctx16.fillText('$', 8, 8);
+
+// 48x48
+const ctx48 = document.getElementById('canvas48').getContext('2d');
+ctx48.fillStyle = '#4CAF50';
+ctx48.fillRect(0, 0, 48, 48);
+ctx48.fillStyle = 'white';
+ctx48.font = 'bold 36px Arial';
+ctx48.textAlign = 'center';
+ctx48.textBaseline = 'middle';
+ctx48.fillText('$', 24, 24);
+
+// 128x128
+const ctx128 = document.getElementById('canvas128').getContext('2d');
+ctx128.fillStyle = '#4CAF50';
+ctx128.fillRect(0, 0, 128, 128);
+ctx128.fillStyle = 'white';
+ctx128.font = 'bold 96px Arial';
+ctx128.textAlign = 'center';
+ctx128.textBaseline = 'middle';
+ctx128.fillText('$', 64, 64);
+
+console.log('Icons created! Right-click each canvas to save as PNG.');
+</script>
+</body>
+</html>

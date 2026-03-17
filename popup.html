@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Honest Price Tracker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header with privacy promise -->
+    <header>
+      <h1>🛡️ Honest Price Tracker</h1>
+      <div class="privacy-badge">
+        ✅ We NEVER modify your cookies<br>
+        ✅ All data stays on YOUR device
+      </div>
+    </header>
+
+    <!-- Current page product (if on supported site) -->
+    <section id="current-product" class="section hidden">
+      <h2>Current Product</h2>
+      <div id="product-card" class="product-card"></div>
+      <button id="track-button" class="btn btn-primary">Track This Product</button>
+    </section>
+
+    <!-- Tracked products list -->
+    <section id="tracked-products" class="section">
+      <h2>Tracked Products (<span id="tracked-count">0</span>)</h2>
+      <div id="tracked-list" class="tracked-list">
+        <p class="empty-state">No products tracked yet. Visit Amazon, eBay, or Walmart and click "Track This Product".</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <button id="settings-button" class="btn btn-link">Settings</button>
+      <button id="offline-test-button" class="btn btn-link">🧪 Offline Test</button>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

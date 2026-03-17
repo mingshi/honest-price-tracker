@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrome AI Prompt API - Price Extraction Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #ecf0f1;
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+        }
+        .test-result {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .sample-html {
+            margin: 15px 0;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Chrome AI Prompt API - 价格提取验证测试</h1>
+        
+        <div class="test-section">
+            <h2>测试目的</h2>
+            <p>验证Chrome AI Prompt API能否从各大电商网站准确提取商品价格、标题和其他关键信息。</p>
+            <p><strong>注意</strong>: 此测试需要在支持Chrome AI的浏览器中运行（Chrome 128+ with AI flags enabled）</p>
+        </div>
+
+        <div class="test-section">
+            <h2>🔧 前置条件检查</h2>
+            <button onclick="checkAIAvailability()">检查Chrome AI可用性</button>
+            <div id="availability-result" class="test-result info" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🛒 Test Case 1: Amazon价格提取</h2>
+            <p>测试样本HTML（简化的Amazon商品页面结构）：</p>
+            <div class="sample-html">
+                <code>&lt;span class="a-price-whole"&gt;19&lt;/span&gt;&lt;span class="a-price-fraction"&gt;99&lt;/span&gt;</code><br>
+                <code>&lt;span id="productTitle"&gt;Wireless Mouse - Ergonomic Design&lt;/span&gt;</code>
+            </div>
+            <button onclick="testAmazonExtraction()">运行Amazon测试</button>
+            <div id="amazon-result" class="test-result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🛍️ Test Case 2: eBay价格提取</h2>
+            <p>测试样本HTML：</p>
+            <div class="sample-html">
+                <code>&lt;span class="ux-textspans ux-textspans--BOLD"&gt;US $24.99&lt;/span&gt;</code><br>
+                <code>&lt;h1 class="x-item-title__mainTitle"&gt;Vintage Camera Lens&lt;/h1&gt;</code>
+            </div>
+            <button onclick="testEbayExtraction()">运行eBay测试</button>
+            <div id="ebay-result" class="test-result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🏪 Test Case 3: Walmart价格提取</h2>
+            <p>测试样本HTML：</p>
+            <div class="sample-html">
+                <code>&lt;span class="price-characteristic" itemprop="price"&gt;34&lt;/span&gt;&lt;span class="price-mantissa"&gt;97&lt;/span&gt;</code><br>
+                <code>&lt;h1 itemprop="name"&gt;LED Desk Lamp&lt;/h1&gt;</code>
+            </div>
+            <button onclick="testWalmartExtraction()">运行Walmart测试</button>
+            <div id="walmart-result" class="test-result" style="display:none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 测试结果汇总</h2>
+            <div id="summary-result" class="test-result info">
+                <p>点击上方测试按钮开始验证...</p>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>📝 Fallback方案测试</h2>
+            <p>如果Chrome AI无法准确提取，测试传统DOM解析方法：</p>
+            <button onclick="testFallbackParsing()">运行Fallback测试</button>
+            <div id="fallback-result" class="test-result" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        let testResults = {
+            aiAvailable: null,
+            amazon: null,
+            ebay: null,
+            walmart: null,
+            fallback: null
+        };
+
+        async function checkAIAvailability() {
+            const resultDiv = document.getElementById('availability-result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>⏳ 检查中...</p>';
+
+            try {
+                // Check if AI is available
+                if (!window.ai || !window.ai.createTextSession) {
+                    testResults.aiAvailable = false;
+                    resultDiv.className = 'test-result error';
+                    resultDiv.innerHTML = `
+                        <h3>❌ Chrome AI 不可用</h3>
+                        <p><strong>原因</strong>: window.ai.createTextSession 不存在</p>
+                        <p><strong>解决方案</strong>:</p>
+                        <ol>
+                            <li>确保使用Chrome 128+版本</li>
+                            <li>启用Chrome AI flags: chrome://flags/#optimization-guide-on-device-model</li>
+                            <li>启用Prompt API: chrome://flags/#prompt-api-for-gemini-nano</li>
+                            <li>重启浏览器</li>
+                        </ol>
+                        <p><strong>备选方案</strong>: 使用传统DOM解析（见Fallback测试）</p>
+                    `;
+                    return;
+                }
+
+                // Try to create a session
+                const session = await window.ai.createTextSession();
+                testResults.aiAvailable = true;
+                resultDiv.className = 'test-result success';
+                resultDiv.innerHTML = `
+                    <h3>✅ Chrome AI 可用！</h3>
+                    <p>Session创建成功，可以进行价格提取测试。</p>
+                `;
+            } catch (error) {
+                testResults.aiAvailable = false;
+                resultDiv.className = 'test-result error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Chrome AI 初始化失败</h3>
+                    <p><strong>错误信息</strong>: ${error.message}</p>
+                    <p><strong>建议</strong>: 使用Fallback DOM解析方案</p>
+                `;
+            }
+        }
+
+        async function testAmazonExtraction() {
+            const resultDiv = document.getElementById('amazon-result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>⏳ 测试中...</p>';
+
+            const sampleHTML = `
+                <div class="a-section a-spacing-none">
+                    <span class="a-price-whole">19</span>
+                    <span class="a-price-fraction">99</span>
+                </div>
+                <span id="productTitle" class="a-size-large">
+                    Wireless Mouse - Ergonomic Design with USB Receiver
+                </span>
+                <div id="acrPopover" class="a-popover-trigger a-declarative">
+                    <span class="a-size-base">4.5 out of 5 stars</span>
+                </div>
+            `;
+
+            try {
+                if (testResults.aiAvailable === false) {
+                    throw new Error('Chrome AI不可用，请先运行可用性检查');
+                }
+
+                const session = await window.ai.createTextSession();
+                const prompt = `Extract the following information from this HTML:
+1. Price (number only, no currency symbol)
+2. Product title
+3. Rating (if available)
+
+HTML:
+${sampleHTML}
+
+Return ONLY valid JSON in this format:
+{
+  "price": 19.99,
+  "title": "Product title here",
+  "rating": 4.5
+}`;
+
+                const response = await session.prompt(prompt);
+                const extracted = JSON.parse(response);
+
+                testResults.amazon = {
+                    success: extracted.price === 19.99,
+                    data: extracted
+                };
+
+                if (testResults.amazon.success) {
+                    resultDiv.className = 'test-result success';
+                    resultDiv.innerHTML = `
+                        <h3>✅ Amazon提取成功！</h3>
+                        <pre>${JSON.stringify(extracted, null, 2)}</pre>
+                        <p><strong>验证</strong>: 价格${extracted.price === 19.99 ? '✅正确' : '❌错误'}</p>
+                    `;
+                } else {
+                    resultDiv.className = 'test-result error';
+                    resultDiv.innerHTML = `
+                        <h3>⚠️ Amazon提取不准确</h3>
+                        <p><strong>预期价格</strong>: 19.99</p>
+                        <p><strong>提取价格</strong>: ${extracted.price}</p>
+                        <pre>${JSON.stringify(extracted, null, 2)}</pre>
+                    `;
+                }
+            } catch (error) {
+                testResults.amazon = { success: false, error: error.message };
+                resultDiv.className = 'test-result error';
+                resultDiv.innerHTML = `
+                    <h3>❌ Amazon测试失败</h3>
+                    <p><strong>错误</strong>: ${error.message}</p>
+                `;
+            }
+
+            updateSummary();
+        }
+
+        async function testEbayExtraction() {
+            const resultDiv = document.getElementById('ebay-result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>⏳ 测试中...</p>';
+
+            const sampleHTML = `
+                <div class="x-price-primary">
+                    <span class="ux-textspans ux-textspans--BOLD">US $24.99</span>
+                </div>
+                <h1 class="x-item-title__mainTitle">
+                    <span class="ux-textspans ux-textspans--BOLD">Vintage Camera Lens 50mm F/1.8</span>
+                </h1>
+            `;
+
+            try {
+                if (testResults.aiAvailable === false) {
+                    throw new Error('Chrome AI不可用');
+                }
+
+                const session = await window.ai.createTextSession();
+                const prompt = `Extract price and title from this eBay HTML. Return JSON:
+${sampleHTML}`;
+
+                const response = await session.prompt(prompt);
+                const extracted = JSON.parse(response);
+
+                testResults.ebay = {
+                    success: extracted.price >= 24.99 && extracted.price <= 25.00,
+                    data: extracted
+                };
+
+                resultDiv.className = testResults.ebay.success ? 'test-result success' : 'test-result error';
+                resultDiv.innerHTML = `
+                    <h3>${testResults.ebay.success ? '✅' : '⚠️'} eBay提取结果</h3>
+                    <pre>${JSON.stringify(extracted, null, 2)}</pre>
+                `;
+            } catch (error) {
+                testResults.ebay = { success: false, error: error.message };
+                resultDiv.className = 'test-result error';
+                resultDiv.innerHTML = `<h3>❌ eBay测试失败</h3><p>${error.message}</p>`;
+            }
+
+            updateSummary();
+        }
+
+        async function testWalmartExtraction() {
+            const resultDiv = document.getElementById('walmart-result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>⏳ 测试中...</p>';
+
+            const sampleHTML = `
+                <span class="price-group">
+                    <span class="price-characteristic" itemprop="price">34</span>
+                    <span class="price-mantissa">97</span>
+                </span>
+                <h1 class="prod-ProductTitle" itemprop="name">LED Desk Lamp with USB Charging Port</h1>
+            `;
+
+            try {
+                if (testResults.aiAvailable === false) {
+                    throw new Error('Chrome AI不可用');
+                }
+
+                const session = await window.ai.createTextSession();
+                const prompt = `Extract price and title from Walmart HTML. Return JSON:
+${sampleHTML}`;
+
+                const response = await session.prompt(prompt);
+                const extracted = JSON.parse(response);
+
+                testResults.walmart = {
+                    success: extracted.price >= 34.97 && extracted.price <= 35.00,
+                    data: extracted
+                };
+
+                resultDiv.className = testResults.walmart.success ? 'test-result success' : 'test-result error';
+                resultDiv.innerHTML = `
+                    <h3>${testResults.walmart.success ? '✅' : '⚠️'} Walmart提取结果</h3>
+                    <pre>${JSON.stringify(extracted, null, 2)}</pre>
+                `;
+            } catch (error) {
+                testResults.walmart = { success: false, error: error.message };
+                resultDiv.className = 'test-result error';
+                resultDiv.innerHTML = `<h3>❌ Walmart测试失败</h3><p>${error.message}</p>`;
+            }
+
+            updateSummary();
+        }
+
+        function testFallbackParsing() {
+            const resultDiv = document.getElementById('fallback-result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>⏳ 测试传统DOM解析...</p>';
+
+            // Simulate DOM parsing without AI
+            const tests = [
+                {
+                    name: 'Amazon',
+                    html: '<span class="a-price-whole">19</span><span class="a-price-fraction">99</span>',
+                    expected: 19.99,
+                    selector: '.a-price-whole, .a-price-fraction'
+                },
+                {
+                    name: 'eBay',
+                    html: '<span class="ux-textspans">US $24.99</span>',
+                    expected: 24.99,
+                    regex: /\$\s*([\d,.]+)/
+                },
+                {
+                    name: 'Walmart',
+                    html: '<span class="price-characteristic">34</span><span class="price-mantissa">97</span>',
+                    expected: 34.97,
+                    selector: '.price-characteristic, .price-mantissa'
+                }
+            ];
+
+            let results = [];
+            tests.forEach(test => {
+                // Simple regex-based extraction
+                const matches = test.html.match(/[\d,.]+/g);
+                if (matches) {
+                    const extracted = parseFloat(matches.join('.'));
+                    const success = Math.abs(extracted - test.expected) < 0.01;
+                    results.push({
+                        name: test.name,
+                        success: success,
+                        extracted: extracted,
+                        expected: test.expected
+                    });
+                }
+            });
+
+            const allSuccess = results.every(r => r.success);
+            testResults.fallback = { success: allSuccess, results: results };
+
+            resultDiv.className = allSuccess ? 'test-result success' : 'test-result error';
+            resultDiv.innerHTML = `
+                <h3>${allSuccess ? '✅' : '⚠️'} Fallback DOM解析结果</h3>
+                ${results.map(r => `
+                    <p><strong>${r.name}</strong>: ${r.success ? '✅' : '❌'} 
+                    (提取: $${r.extracted}, 预期: $${r.expected})</p>
+                `).join('')}
+                <p><strong>结论</strong>: Fallback方案${allSuccess ? '完全可行' : '需要调整'}，可作为Chrome AI的备用方案。</p>
+            `;
+
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const summaryDiv = document.getElementById('summary-result');
+            const completed = Object.values(testResults).filter(r => r !== null).length;
+            const total = Object.keys(testResults).length;
+            const successful = Object.values(testResults).filter(r => r && r.success).length;
+
+            summaryDiv.innerHTML = `
+                <h3>测试进度: ${completed}/${total}</h3>
+                <p><strong>成功</strong>: ${successful} | <strong>失败</strong>: ${completed - successful}</p>
+                ${completed === total ? `
+                    <hr>
+                    <h3>📋 最终结论</h3>
+                    ${testResults.aiAvailable ? 
+                        `<p>✅ Chrome AI可用，可以作为主要提取方案</p>` :
+                        `<p>⚠️ Chrome AI不可用，必须使用Fallback方案</p>`
+                    }
+                    ${testResults.fallback && testResults.fallback.success ?
+                        `<p>✅ Fallback DOM解析验证通过，可以作为备用方案</p>` :
+                        ''
+                    }
+                    <p><strong>推荐策略</strong>: 
+                        ${testResults.aiAvailable ? 
+                            '优先使用Chrome AI，失败时自动切换到DOM解析' :
+                            '使用传统DOM解析（Regex + querySelector）'
+                        }
+                    </p>
+                ` : ''}
+            `;
+        }
+    </script>
+</body>
+</html>

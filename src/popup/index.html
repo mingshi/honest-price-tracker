@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Honest Price Tracker</title>
+  <style>
+    body {
+      width: 400px;
+      min-height: 500px;
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+    }
+    
+    h1 {
+      margin: 0 0 16px 0;
+      font-size: 20px;
+      color: #333;
+    }
+    
+    .badge {
+      display: inline-block;
+      background: #4CAF50;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-left: 8px;
+    }
+    
+    .tracked-list {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 32px;
+      color: #666;
+    }
+    
+    .privacy-note {
+      margin-top: 16px;
+      padding: 12px;
+      background: #e8f5e9;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+  <h1>
+    Honest Price Tracker
+    <span class="badge">✓ Privacy First</span>
+  </h1>
+  
+  <div class="tracked-list">
+    <div class="empty-state">
+      <p>📦 No products tracked yet</p>
+      <p style="font-size: 14px; color: #999;">
+        Visit Amazon, eBay, or Walmart to start tracking prices
+      </p>
+    </div>
+  </div>
+  
+  <div class="privacy-note">
+    ✓ All data stored locally on your device<br>
+    ✓ No cookies modified<br>
+    ✓ No data uploaded to servers
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

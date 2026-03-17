@@ -1,0 +1,33 @@
+<svg width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4CAF50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2196F3;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background rounded square -->
+  <rect width="128" height="128" rx="24" fill="url(#bg-gradient)"/>
+  
+  <!-- Shield symbol (privacy/trust) -->
+  <path d="M 64 20 L 44 28 L 44 58 C 44 78 54 96 64 104 C 74 96 84 78 84 58 L 84 28 Z" 
+        fill="white" filter="url(#shadow)"/>
+  
+  <!-- Checkmark (honest/verified) -->
+  <path d="M 54 60 L 60 68 L 74 48" 
+        stroke="#4CAF50" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" 
+        fill="none" filter="url(#shadow)"/>
+  
+  <!-- Price tag symbol -->
+  <g transform="translate(64, 84)">
+    <path d="M -10 0 L -10 -12 L 2 -12 L 10 -4 L 10 8 L -2 8 Z" 
+          fill="white" filter="url(#shadow)"/>
+    <circle cx="-4" cy="-6" r="2" fill="#2196F3"/>
+    <text x="-8" y="6" font-family="Arial" font-size="10" font-weight="bold" fill="#4CAF50">$</text>
+  </g>
+</svg>

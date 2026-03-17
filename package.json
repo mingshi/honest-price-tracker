@@ -1,0 +1,27 @@
+{
+  "name": "honest-price-tracker",
+  "version": "0.1.0",
+  "description": "Privacy-first price tracker Chrome extension",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "watch": "webpack --config webpack.config.js --watch",
+    "test": "jest"
+  },
+  "keywords": ["price-tracker", "privacy", "chrome-extension", "amazon", "ebay", "walmart"],
+  "author": "MingshiHacking",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chrome": "^0.0.260",
+    "@types/node": "^20.11.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.11"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.1"
+  }
+}

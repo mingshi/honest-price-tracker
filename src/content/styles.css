@@ -1,0 +1,23 @@
+/**
+ * Content Script Styles
+ * Injected into product pages
+ */
+
+.honest-price-tracker-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 300px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 10000;
+  padding: 16px;
+}
+
+.honest-price-tracker-chart {
+  width: 100%;
+  height: 200px;
+}
