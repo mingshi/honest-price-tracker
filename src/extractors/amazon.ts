@@ -108,17 +108,23 @@ function extractASIN(): string | null {
  */
 function extractTitle(): string | null {
   const selectors = [
+    '[id*="title"]',           // Wildcard: any element with "title" in id (WORKS!)
     '#productTitle',
+    'h1[class*="title"]',      // Wildcard: any h1 with "title" in class
     '#title',
     'h1.product-title',
     '[data-feature-name="title"] h1',
-    'span#productTitle'
+    'span#productTitle',
+    'h1'
   ];
 
   for (const selector of selectors) {
     const element = document.querySelector(selector);
     if (element && element.textContent) {
-      return element.textContent.trim();
+      const title = element.textContent.trim();
+      if (title.length > 10) { // Reasonable title length
+        return title;
+      }
     }
   }
 
@@ -133,11 +139,12 @@ function extractPrice(): { success: boolean; price?: number; currency?: string; 
   // Strategy 1: Look for common price elements
   const priceSelectors = [
     '.a-price-whole', // Current price
+    '.a-price[data-a-color="price"] .a-offscreen', // Offscreen price (for screen readers)
+    '#corePrice_feature_div .a-price-whole', // Feature div price
     '#priceblock_ourprice', // Our price
     '#priceblock_dealprice', // Deal price
     '#priceblock_saleprice', // Sale price
-    '.a-price[data-a-color="price"] .a-offscreen', // Offscreen price (for screen readers)
-    '#corePrice_feature_div .a-price-whole' // Feature div price
+    '[class*="price"]'
   ];
 
   for (const selector of priceSelectors) {
