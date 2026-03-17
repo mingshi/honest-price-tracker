@@ -177,6 +177,81 @@ Our extension requests the following Chrome permissions:
 
 ---
 
+## Your Rights (GDPR, CCPA, and Beyond)
+
+Even though we don't collect data, we respect your rights:
+
+### Right to Access
+**You have full access** to all data stored by the extension:
+- Chrome DevTools → Application → Storage
+- Settings → Export Data (backup your tracking list)
+
+### Right to Deletion
+**You can delete data at any time**:
+- Remove individual products from tracking list
+- Settings → Clear All Data (delete everything)
+- Uninstall extension (automatic full deletion)
+
+### Right to Portability
+**Export your data anytime**:
+- Settings → Export Data → JSON file
+- Take your tracking list to another service
+- No vendor lock-in
+
+### Right to Object
+**You control what we process**:
+- Disable price monitoring in Settings
+- Disable notifications
+- Untrack specific products
+
+### Right to be Forgotten
+**Simply uninstall the extension.** Since we have no servers, there's nothing for us to "forget" — your data never left your device.
+
+---
+
+## Cookies and Tracking
+
+### Our Cookie Policy
+
+**We do not use cookies. Period.**
+
+Unlike other extensions:
+- ❌ No analytics cookies
+- ❌ No advertising cookies
+- ❌ No session cookies
+- ❌ No affiliate cookies
+
+**We specifically never:**
+- Modify retailer cookies (unlike Honey's affiliate hijacking)
+- Set our own cookies
+- Read cookies from websites you visit
+- Share cookies with third parties
+
+### Browser Fingerprinting
+
+**We do not collect browser fingerprints.**
+
+We don't collect:
+- Your IP address
+- Your user agent
+- Your screen resolution
+- Your installed fonts
+- Your timezone
+- Any device identifiers
+
+### Tracking Prevention
+
+**We don't track you because tracking is fundamentally incompatible with our architecture.**
+
+- No Google Analytics
+- No Facebook Pixel
+- No Mixpanel
+- No Hotjar
+- No Amplitude
+- No Sentry error tracking (we use local logging)
+
+---
+
 ## Data Security
 
 Since all data is stored locally on your device:
@@ -184,6 +259,8 @@ Since all data is stored locally on your device:
 1. **Your responsibility**: Keep your device secure with a strong password
 2. **Chrome's security**: Your data is protected by Chrome's built-in security
 3. **No server breaches**: Since we have no servers, there's nothing for hackers to breach
+4. **Encryption at rest**: Chrome encrypts your local storage automatically
+5. **No man-in-the-middle attacks**: Since there's no network communication, there's nothing to intercept
 
 ---
 
@@ -215,6 +292,25 @@ We commit to **never** adding data collection without explicit user consent.
 
 ---
 
+## Third-Party Services
+
+**We use ZERO third-party services.**
+
+Specifically, we do NOT use:
+- ❌ Cloud storage providers (AWS, Google Cloud, Azure)
+- ❌ Analytics services (Google Analytics, Mixpanel, Amplitude)
+- ❌ Error tracking (Sentry, Rollbar, Bugsnag)
+- ❌ A/B testing platforms
+- ❌ Customer support tools (Intercom, Zendesk)
+- ❌ Payment processors (not applicable, extension is free)
+- ❌ CDNs (no external resources loaded)
+- ❌ Ad networks
+- ❌ Social media widgets
+
+**Our extension loads ZERO external resources.** You can verify this in Chrome DevTools → Network tab.
+
+---
+
 ## Compliance
 
 ### GDPR (European Union)
@@ -222,13 +318,34 @@ We commit to **never** adding data collection without explicit user consent.
 
 Since we don't collect, process, or store personal data on any server, we have no GDPR obligations. All data remains on your device, under your control.
 
-### CCPA (California)
+**Specific GDPR rights:**
+- ✅ Right to access: You have full access via Chrome DevTools
+- ✅ Right to rectification: Edit your tracked products anytime
+- ✅ Right to erasure: Delete data in Settings or uninstall
+- ✅ Right to data portability: Export data as JSON
+- ✅ Right to object: Disable features in Settings
+- ✅ Right to be informed: This privacy policy
+
+### CCPA (California Consumer Privacy Act)
 **Status**: Fully compliant
 
 We don't "sell" data because we never have access to it. You have full control over your data through Chrome's storage management.
 
+**Specific CCPA rights:**
+- ✅ Right to know: This policy discloses everything
+- ✅ Right to delete: Settings → Clear All Data
+- ✅ Right to opt-out of sale: Not applicable (we don't sell data)
+- ✅ Right to non-discrimination: Not applicable (all features are equal)
+
+### PIPEDA (Canada)
+**Status**: Fully compliant
+
+No personal information is collected, so PIPEDA obligations do not apply.
+
 ### Other Jurisdictions
 Our architecture inherently complies with all privacy laws because we don't collect data.
+
+**Countries with strong data protection**: 🇪🇺 EU, 🇬🇧 UK, 🇨🇭 Switzerland, 🇨🇦 Canada, 🇦🇺 Australia, 🇧🇷 Brazil, 🇯🇵 Japan, 🇰🇷 South Korea — all covered by our local-only architecture.
 
 ---
 
