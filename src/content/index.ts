@@ -95,6 +95,48 @@ const init = () => {
   });
 };
 
+// Listen for messages from background (for manual price extraction)
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'EXTRACT_PRICE') {
+    console.log('Manual price extraction requested');
+    
+    const retailer = detectRetailer();
+    if (!retailer) {
+      sendResponse({ 
+        type: 'PRICE_EXTRACTED',
+        success: false, 
+        error: 'Not on a supported retailer page' 
+      });
+      return;
+    }
+    
+    const productData = extractProductData(retailer);
+    
+    if (productData) {
+      // Send extracted price back to background
+      chrome.runtime.sendMessage({
+        type: 'PRICE_EXTRACTED',
+        success: true,
+        data: productData
+      });
+      
+      sendResponse({ 
+        type: 'PRICE_EXTRACTED',
+        success: true, 
+        data: productData 
+      });
+    } else {
+      sendResponse({ 
+        type: 'PRICE_EXTRACTED',
+        success: false, 
+        error: 'Could not extract product data' 
+      });
+    }
+    
+    return true;
+  }
+});
+
 // Run when page is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);

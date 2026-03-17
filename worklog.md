@@ -252,3 +252,78 @@
 **累计工作时间**: 91分钟 (1小时31分钟)
 
 **下一步**: Task 2.4 - IndexedDB本地存储（存储层是所有功能的基础）
+
+### 18:16-18:42 - Task 2.4: IndexedDB本地存储 ✅
+- **实现内容**:
+  - ✅ 完整的IndexedDB封装（646行，19.4KB）
+  - ✅ 数据库Schema设计:
+    - **products存储**: 追踪产品信息（价格统计、检查次数等）
+    - **price_history存储**: 历史价格点（自增ID，索引查询）
+    - **alerts存储**: 价格提醒（目标价格、通知状态）
+    - **settings存储**: 用户设置（key-value存储）
+  - ✅ 索引优化:
+    - products: retailer, productId, lastChecked
+    - price_history: productKey, timestamp, 复合索引(productKey+timestamp)
+    - alerts: productKey, enabled
+  - ✅ CRUD操作（所有实体）:
+    - Products: save, get, getAll, getByRetailer, delete, deleteAll
+    - PriceHistory: add, get (with limit), delete, cleanup
+    - Alerts: add, get, update, delete, getEnabled
+    - Settings: save, get (with defaults), delete
+  - ✅ 高级功能:
+    - 价格历史清理（防止数据库膨胀，保留最新100点）
+    - 完整数据导出（JSON格式，用于备份）
+    - 数据导入（恢复备份）
+    - 清除所有数据（用户隐私控制）
+  - ✅ 连接管理:
+    - 单例DB实例（避免重复连接）
+    - Promise-based API（async/await友好）
+    - 完善错误处理
+
+- **测试**:
+  - ✅ 完整单元测试套件（372行，9.8KB）
+  - ✅ 15个测试用例:
+    - Database initialization (2 tests)
+    - Products CRUD (4 tests)
+    - Price history (3 tests)
+    - Alerts (3 tests)
+    - Settings (4 tests)
+    - Export/Import (2 tests)
+    - Data clearing (1 test)
+  - ✅ fake-indexeddb依赖（模拟IndexedDB环境）
+
+- **输出**:
+  - `src/storage/db.ts` (646行，19.4KB)
+  - `tests/storage/db.test.ts` (372行，9.8KB)
+
+- **耗时**: 26分钟
+- **状态**: ✅ COMPLETE，存储层完全就绪
+
+---
+
+## 进度总结更新（18:16）
+
+| 任务 | 状态 | 开始时间 | 完成时间 | 耗时 | 输出 |
+|------|------|---------|---------|------|------|
+| Task 1.1 | ✅ | 17:30 | 17:37 | 12分钟 | technical_validation_report.md |
+| Task 1.2 | ✅ | 17:52 | 18:10 | 18分钟 | 完整项目结构 + 13个核心文件 |
+| Task 1.3 | 🟢 | 17:56 | 18:16 | 20分钟 | Git + 域名配置完成（等待推送） |
+| Task 1.5 | ✅ | 18:16 | 18:25 | 9分钟 | PRIVACY_POLICY.md (11.8KB) |
+| Task 2.1 | ✅ | 18:25 | 18:40 | 32分钟 | Amazon提取器 (349行) + 测试 (152行) |
+| Task 2.4 | ✅ | 18:16 | 18:42 | 26分钟 | IndexedDB (646行) + 测试 (372行) |
+
+**当前进度**: 10/31任务 (32%)
+- ✅ 完全完成: 9任务
+- 🟢 本地完成等待推送: 1任务 (Task 1.3)
+- ⏳ 待开始: 21任务
+
+**累计工作时间**: 117分钟 (1小时57分钟)
+
+**关键里程碑**:
+- ✅ 技术验证完成（Fallback DOM解析100%准确）
+- ✅ Amazon价格提取器完成（多策略，多货币）
+- ✅ 存储层完成（IndexedDB完整封装）
+- 🟢 Git仓库就绪（6个提交，等待推送）
+- 🟢 域名配置就绪（tokensdance.ai子域名，$0成本）
+
+**下一步**: 集成存储层到background worker（Task 2.6/2.7/2.8可以开始）
