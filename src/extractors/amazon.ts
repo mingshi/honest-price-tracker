@@ -338,12 +338,18 @@ function extractAvailability(): string | undefined {
  * Validate if current page is an Amazon product page
  */
 export function isAmazonProductPage(): boolean {
-  // Check URL pattern
+  // Check URL pattern - primary indicator
   const isProductUrl = /amazon\.[a-z.]+\/(dp|gp\/product)\/[A-Z0-9]{10}/.test(window.location.href);
   
-  // Check for product-specific elements
+  // If URL matches, it's very likely a product page
+  if (isProductUrl) {
+    return true;
+  }
+  
+  // Fallback: Check for product-specific elements (for edge cases)
   const hasProductTitle = document.querySelector('#productTitle') !== null;
   const hasPrice = document.querySelector('.a-price') !== null;
+  const hasASIN = document.querySelector('[data-asin]') !== null;
   
-  return isProductUrl && (hasProductTitle || hasPrice);
+  return hasProductTitle || hasPrice || hasASIN;
 }
