@@ -75,15 +75,15 @@
 - Amazon tests: 152
 - Storage tests: 372
 
-**Documentation**: ~13,000 characters
-- README.md
-- PRIVACY_POLICY.md (11.8KB)
-- CONTRIBUTING.md
-- TESTING.md
-- CHROME_WEB_STORE.md
-- FINAL_CHECKLIST.md
+**Documentation**: ~24KB
+- README.md (11.5KB) ✅ Complete
+- PRIVACY_POLICY.md (11.8KB) ✅ Complete
+- CONTRIBUTING.md ✅ Complete
+- TESTING.md ✅ Complete
+- CHROME_WEB_STORE.md (7KB) ✅ Complete
+- FINAL_CHECKLIST.md (6KB) ✅ Updated
 
-**Total**: ~17 commits, all pushed to GitHub
+**Total**: 23 commits, all pushed to GitHub
 
 ## ⚠️ Known Issues & Limitations
 
@@ -154,30 +154,37 @@
    - Refresh price manually
 
 ### Before Chrome Web Store Submission
-4. **Create Screenshots** (15 minutes)
+4. **Create PNG Icons** (5 minutes) ⚠️ REQUIRED
+   - Convert `assets/icons/icon.svg` to PNG (16×16, 48×48, 128×128)
+   - Tools: https://www.aconvert.com/image/svg-to-png/ or ImageMagick
+   - Save to `assets/icons/` and copy to `dist/assets/icons/`
+   - Update manifest.json icon paths if needed
+
+5. **Create Screenshots** (15 minutes) ⚠️ REQUIRED
    - 5 screenshots at 1280×800
    - Popup UI, Chart, Widget, Settings, Notification
+   - Use Chrome's built-in screenshot tool
 
-5. **Final Testing** (30 minutes)
+6. **Final Testing** (30 minutes)
    - Test all features end-to-end
    - Verify no console errors
    - Check privacy claims (no external requests)
    - Verify data export/import works
 
-6. **Submit to Chrome Web Store** (1 hour)
+7. **Submit to Chrome Web Store** (1 hour)
    - Create developer account ($5 fee)
    - Fill store listing
    - Upload screenshots
    - Submit for review
 
 ### Post-Launch
-7. **Marketing** (ongoing)
+8. **Marketing** (ongoing)
    - Reddit posts (r/Frugal, r/Privacy)
    - Hacker News Show HN
    - Product Hunt launch
    - Twitter announcement
 
-8. **Iteration** (weeks 2-4)
+9. **Iteration** (weeks 2-4)
    - Add eBay/Walmart support
    - Integrate Chart.js
    - Add fake review detection
@@ -185,7 +192,7 @@
 
 ## 📝 Final Notes
 
-**Project Status**: ✅ MVP Complete (15/31 tasks = 48%)
+**Project Status**: ✅ MVP Complete (17/31 tasks = 55%)
 
 **What's Done**:
 - All core functionality implemented
