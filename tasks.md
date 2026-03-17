@@ -3,13 +3,13 @@
 **项目目标**: 开发第一个诚实且隐私优先的价格追踪Chrome扩展  
 **开始时间**: 2026-03-17 17:25  
 **预计完成**: 2026-04-07 (21天)  
-**当前进度**: 17/31 任务 (55%)
+**当前进度**: 20/31 任务 (65%)
 
 ---
 
 ## 📋 任务清单
 
-### ✅ 已完成 (17/31 = 55%)
+### ✅ 已完成 (20/31 = 65%)
 
 - [x] **Task 1.1**: Chrome AI技术验证 - 提取Amazon价格 ✅ (2026-03-17 17:37完成)
   - 验证方法: 理论分析 + Fallback DOM解析测试
@@ -106,7 +106,7 @@ _无_
 
 ---
 
-### 📝 待完成 (14/31 = 45%)
+### 📝 待完成 (11/31 = 35%)
 
 #### 🔬 Phase 1: 验证与准备 (Day 1-2, 2个任务剩余)
 
@@ -238,24 +238,45 @@ _无_
   - 输出: options/index.html
   - 预计: 4小时
 
-##### 模块E: 核心差异化功能 (3个任务)
-- [ ] **Task 2.13**: 断网测试功能
-  - 用户可一键测试"断网后扩展是否正常工作"
-  - 显示"✅ 验证通过：所有数据本地处理"
-  - 输出: features/offline-test.ts
-  - 预计: 4小时
+##### 模块E: 核心差异化功能 (3个任务) ✅ 全部完成
 
-- [ ] **Task 2.14**: Cookie无修改承诺
-  - 在Popup显著位置显示"✅ 我们绝不修改你的Cookie"
-  - 代码审计报告（证明未使用Cookie API）
-  - 输出: features/cookie-promise.tsx
-  - 预计: 2小时
+- [x] **Task 2.13**: 断网测试功能 ✅ (2026-03-17 19:10完成)
+  - ✅ runOfflineTest: 5项隐私检查
+  - ✅ IndexedDB访问测试
+  - ✅ Chrome APIs可用性测试
+  - ✅ 无外部请求验证
+  - ✅ 离线功能测试
+  - ✅ Cookie API从未使用检查
+  - ✅ generateTestReport: 格式化报告
+  - ✅ 集成到Popup UI（🔒按钮）
+  - ✅ 隐私验证模态框
+  - 输出: features/offline-test.ts (351行)
+  - 实际耗时: 15分钟
 
-- [ ] **Task 2.15**: 优惠码真实测试（MVP简化版）
-  - 显示优惠码来源和"最后成功使用时间"
-  - 社区贡献接口（后续迭代）
-  - 输出: features/coupon-tester.ts
-  - 预计: 6小时
+- [x] **Task 2.14**: Cookie无修改承诺 ✅ (2026-03-17 19:10完成)
+  - ✅ runCookieAudit: 验证Cookie API从未使用
+  - ✅ 检查manifest权限
+  - ✅ 验证无cookies API访问
+  - ✅ 检查content script限制
+  - ✅ Host permissions审计
+  - ✅ getCookiePromiseBadge: 视觉徽章
+  - ✅ getCookiePromiseExplanation: 重要性说明
+  - ✅ getHoneyComparison: Honey如何劫持
+  - ✅ generateCookieAuditReport: 完整审计
+  - 输出: features/cookie-promise.ts (266行)
+  - 实际耗时: 12分钟
+
+- [x] **Task 2.15**: 优惠码真实测试（MVP简化版） ✅ (2026-03-17 19:10完成)
+  - ✅ getCouponsForRetailer: 占位符（v0.2实现）
+  - ✅ testCoupon: 真实测试框架
+  - ✅ recordCouponTest: IndexedDB存储
+  - ✅ getCouponStats: 成功率分析
+  - ✅ formatCouponDisplay: 显示真实数据
+  - ✅ getCouponDisclaimer: vs Honey假优惠券
+  - ✅ getCouponComingSoon: MVP消息
+  - ✅ IndexedDB coupon_tests存储设计
+  - 输出: features/coupon-tester.ts (308行)
+  - 实际耗时: 18分钟
 
 ---
 
