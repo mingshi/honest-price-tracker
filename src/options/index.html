@@ -5,72 +5,284 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Price Tracker - Settings</title>
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
-      margin: 0;
-      padding: 32px;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f5f5f5;
+      background: #f5f7fa;
+      padding: 40px 20px;
     }
     
     .container {
       max-width: 800px;
       margin: 0 auto;
       background: white;
-      padding: 32px;
-      border-radius: 8px;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
     }
     
     h1 {
-      margin: 0 0 24px 0;
-      font-size: 28px;
-      color: #333;
+      font-size: 32px;
+      color: #2c3e50;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .subtitle {
+      color: #8899a6;
+      font-size: 14px;
+      margin-bottom: 32px;
     }
     
     .section {
       margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #e1e8ed;
     }
     
+    .section:last-child { border-bottom: none; }
+    
     .section h2 {
-      font-size: 18px;
-      margin: 0 0 16px 0;
-      color: #555;
+      font-size: 20px;
+      color: #2c3e50;
+      margin-bottom: 16px;
+      font-weight: 600;
     }
     
     label {
-      display: block;
-      margin-bottom: 8px;
-      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      color: #2c3e50;
+      cursor: pointer;
+      font-size: 15px;
     }
     
     input[type="checkbox"] {
-      margin-right: 8px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+    
+    select {
+      padding: 10px 14px;
+      border: 1px solid #e1e8ed;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      background: white;
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+    
+    .btn-primary {
+      background: #4CAF50;
+      color: white;
+    }
+    
+    .btn-primary:hover { background: #45a049; }
+    
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #2c3e50;
+    }
+    
+    .btn-secondary:hover { background: #e0e0e0; }
+    
+    .btn-danger {
+      background: #fee;
+      color: #f44336;
+    }
+    
+    .btn-danger:hover { background: #fdd; }
+    
+    .privacy-list {
+      list-style: none;
+      padding: 16px;
+      background: #e8f5e9;
+      border-radius: 6px;
+    }
+    
+    .privacy-list li {
+      padding: 8px 0;
+      color: #2e7d32;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    
+    .stat-card {
+      background: #f5f7fa;
+      padding: 16px;
+      border-radius: 6px;
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: #8899a6;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    
+    .stat-value {
+      font-size: 24px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    
+    .help-text {
+      font-size: 13px;
+      color: #8899a6;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+    
+    input[type="file"] { display: none; }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100%);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>⚙️ Settings</h1>
+    <p class="subtitle">Configure Honest Price Tracker</p>
     
+    <!-- Statistics -->
     <div class="section">
-      <h2>Notifications</h2>
+      <h2>📊 Statistics</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Tracked Products</div>
+          <div class="stat-value" id="statProducts">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active Alerts</div>
+          <div class="stat-value" id="statAlerts">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Last Check</div>
+          <div class="stat-value" style="font-size: 12px;" id="statLastCheck">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Next Check</div>
+          <div class="stat-value" style="font-size: 12px;" id="statNextCheck">-</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Notifications -->
+    <div class="section">
+      <h2>🔔 Notifications</h2>
       <label>
         <input type="checkbox" id="notificationsEnabled" checked>
-        Enable price drop notifications
+        <span>Enable price drop notifications</span>
       </label>
+      <p class="help-text">Receive browser notifications when tracked product prices drop below your alerts.</p>
     </div>
     
+    <!-- Monitoring -->
     <div class="section">
-      <h2>Privacy</h2>
-      <p>✓ All data is stored locally on your device</p>
-      <p>✓ No cookies are ever modified</p>
-      <p>✓ No data is sent to external servers</p>
+      <h2>⏰ Price Check Frequency</h2>
+      <select id="checkInterval">
+        <option value="60">Every hour</option>
+        <option value="180">Every 3 hours</option>
+        <option value="360" selected>Every 6 hours (recommended)</option>
+        <option value="720">Every 12 hours</option>
+        <option value="1440">Once daily</option>
+      </select>
+      <p class="help-text">How often to automatically check prices for all tracked products.</p>
     </div>
     
+    <!-- Privacy -->
     <div class="section">
-      <h2>Data Management</h2>
-      <button id="exportData">Export Data</button>
-      <button id="importData">Import Data</button>
-      <button id="clearData" style="color: red;">Clear All Data</button>
+      <h2>🔒 Privacy Commitment</h2>
+      <ul class="privacy-list">
+        <li>✅ All data is stored locally on YOUR device (IndexedDB)</li>
+        <li>✅ No cookies are EVER modified (no affiliate hijacking)</li>
+        <li>✅ No data is sent to external servers</li>
+        <li>✅ No analytics, no tracking, no third-party services</li>
+        <li>✅ 100% open source - audit the code yourself</li>
+      </ul>
+    </div>
+    
+    <!-- Data Management -->
+    <div class="section">
+      <h2>💾 Data Management</h2>
+      <div class="btn-group">
+        <button id="exportBtn" class="btn-primary">📥 Export Data</button>
+        <button id="importBtn" class="btn-secondary">📤 Import Data</button>
+        <button id="clearDataBtn" class="btn-danger">🗑️ Clear All Data</button>
+      </div>
+      <input type="file" id="importFile" accept=".json">
+      <p class="help-text">Export: Download all your tracked products and price history as JSON. Import: Restore from a backup file. Clear: Delete everything (cannot be undone).</p>
+    </div>
+    
+    <!-- About -->
+    <div class="section">
+      <h2>ℹ️ About</h2>
+      <p style="color: #2c3e50; line-height: 1.6;">
+        <strong>Honest Price Tracker</strong> v0.1.0<br>
+        Built with privacy and honesty at its core.<br>
+        <br>
+        <a href="https://github.com/mingshi/honest-price-tracker" target="_blank" style="color: #4CAF50; text-decoration: none;">GitHub</a> •
+        <a href="https://honest-price-tracker.tokensdance.ai" target="_blank" style="color: #4CAF50; text-decoration: none;">Website</a> •
+        <a href="https://github.com/mingshi/honest-price-tracker/blob/main/PRIVACY_POLICY.md" target="_blank" style="color: #4CAF50; text-decoration: none;">Privacy Policy</a>
+      </p>
     </div>
   </div>
   
