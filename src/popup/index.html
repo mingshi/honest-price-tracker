@@ -4,76 +4,109 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Price Tracker</title>
-  <style>
-    body {
-      width: 400px;
-      min-height: 500px;
-      margin: 0;
-      padding: 16px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f5f5f5;
-    }
-    
-    h1 {
-      margin: 0 0 16px 0;
-      font-size: 20px;
-      color: #333;
-    }
-    
-    .badge {
-      display: inline-block;
-      background: #4CAF50;
-      color: white;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      margin-left: 8px;
-    }
-    
-    .tracked-list {
-      background: white;
-      border-radius: 8px;
-      padding: 16px;
-      margin-top: 16px;
-    }
-    
-    .empty-state {
-      text-align: center;
-      padding: 32px;
-      color: #666;
-    }
-    
-    .privacy-note {
-      margin-top: 16px;
-      padding: 12px;
-      background: #e8f5e9;
-      border-radius: 4px;
-      font-size: 12px;
-      color: #2e7d32;
-    }
-  </style>
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <h1>
-    Honest Price Tracker
-    <span class="badge">✓ Privacy First</span>
-  </h1>
-  
-  <div class="tracked-list">
-    <div class="empty-state">
-      <p>📦 No products tracked yet</p>
-      <p style="font-size: 14px; color: #999;">
-        Visit Amazon, eBay, or Walmart to start tracking prices
-      </p>
+  <!-- Header -->
+  <div class="header">
+    <h1>
+      💰 Honest Price Tracker
+      <span class="privacy-badge">✓ Privacy First</span>
+    </h1>
+    <div class="tagline">No cookie hijacking. No fake coupons.</div>
+  </div>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-value" id="totalProducts">0</span>
+      <span class="stat-label">Tracked</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value" id="activeAlerts">0</span>
+      <span class="stat-label">Alerts</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value" id="totalSavings">$0</span>
+      <span class="stat-label">Saved</span>
     </div>
   </div>
-  
-  <div class="privacy-note">
-    ✓ All data stored locally on your device<br>
-    ✓ No cookies modified<br>
-    ✓ No data uploaded to servers
+
+  <!-- Product List -->
+  <div class="product-list">
+    <div class="section-header">
+      <h2 class="section-title">Tracked Products</h2>
+      <button class="refresh-btn" id="refreshBtn" title="Refresh prices">
+        <span>🔄</span> Refresh
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="loading" style="display: none;">
+      <div class="spinner"></div>
+      <div class="loading-text">Loading your products...</div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <div class="empty-icon">📦</div>
+      <div class="empty-title">No products tracked yet</div>
+      <div class="empty-message">
+        Visit Amazon, eBay, or Walmart product pages to start tracking prices.
+        We'll automatically detect products and notify you of price drops.
+      </div>
+      <a href="https://www.amazon.com" target="_blank" class="empty-action">
+        Browse Amazon
+      </a>
+    </div>
+
+    <!-- Product Cards Container -->
+    <div id="productList"></div>
   </div>
-  
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-links">
+      <a href="#" class="footer-link" id="settingsLink">Settings</a>
+      <a href="https://github.com/mingshi/honest-price-tracker" target="_blank" class="footer-link">
+        GitHub
+      </a>
+      <a href="https://honest-price-tracker.tokensdance.ai" target="_blank" class="footer-link">
+        Website
+      </a>
+    </div>
+    <div class="footer-privacy">
+      🔒 100% Local
+    </div>
+  </div>
+
+  <!-- Alert Modal (hidden by default) -->
+  <div id="alertModal" class="modal-overlay" style="display: none;">
+    <div class="modal">
+      <div class="modal-header">Set Price Alert</div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: #8899a6; margin-bottom: 12px;">
+          Notify me when the price drops to:
+        </p>
+        <input 
+          type="number" 
+          class="modal-input" 
+          id="alertPriceInput" 
+          placeholder="Enter target price" 
+          step="0.01"
+          min="0"
+        >
+        <p style="font-size: 11px; color: #8899a6; margin-top: 4px;">
+          Current price: <span id="currentPriceText">$0.00</span>
+        </p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="cancelAlertBtn">Cancel</button>
+        <button class="btn btn-primary" id="saveAlertBtn">Set Alert</button>
+      </div>
+    </div>
+  </div>
+
   <script src="popup.js"></script>
 </body>
 </html>
