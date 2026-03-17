@@ -5,6 +5,7 @@
 
 import { TrackedProduct, PriceAlert } from '../storage/db';
 import { createPriceChart } from '../components/PriceChart';
+import { runOfflineTest, generateTestReport } from '../features/offline-test';
 
 // DOM Elements
 let productListEl: HTMLElement;
@@ -417,6 +418,115 @@ function showChartModal(product: TrackedProduct, priceHistory: any[]): void {
     highestPrice: product.highestPrice,
     averagePrice: product.averagePrice
   });
+
+  // Close handlers
+  const closeModal = () => {
+    modal.remove();
+  };
+
+  modal.querySelector('.modal-close')?.addEventListener('click', closeModal);
+  modal.querySelector('.modal-close-btn')?.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+}
+
+/**
+ * Handle privacy test
+ */
+async function handlePrivacyTest(): Promise<void> {
+  // Show modal
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal privacy-test-modal">
+      <div class="modal-header">
+        <span>🔒 Privacy Verification Test</span>
+        <button class="modal-close" style="float: right; background: none; border: none; font-size: 24px; cursor: pointer; color: #8899a6;">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 16px; color: #2c3e50;">
+          This test verifies that Honest Price Tracker operates 100% offline and never uploads your data.
+        </p>
+        <div id="testProgress" style="text-align: center; padding: 20px;">
+          <div style="font-size: 48px; margin-bottom: 16px;">⏳</div>
+          <div style="color: #8899a6;">Running privacy checks...</div>
+        </div>
+        <div id="testResults" style="display: none;"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary modal-close-btn">Close</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  // Run test
+  try {
+    const result = await runOfflineTest();
+    
+    // Hide progress
+    const progress = modal.querySelector('#testProgress') as HTMLElement;
+    const results = modal.querySelector('#testResults') as HTMLElement;
+    progress.style.display = 'none';
+    results.style.display = 'block';
+
+    // Show results
+    results.innerHTML = `
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="font-size: 64px; margin-bottom: 12px;">
+          ${result.passed ? '✅' : '⚠️'}
+        </div>
+        <div style="font-size: 18px; font-weight: 600; color: ${result.passed ? '#4CAF50' : '#f44336'}; margin-bottom: 8px;">
+          ${result.passed ? 'All Privacy Checks Passed!' : 'Some Checks Failed'}
+        </div>
+        <div style="font-size: 14px; color: #8899a6;">
+          ${result.checks.filter(c => c.passed).length}/${result.checks.length} checks passed
+        </div>
+      </div>
+
+      <div style="max-height: 300px; overflow-y: auto;">
+        ${result.checks.map(check => `
+          <div style="padding: 12px; margin-bottom: 8px; background: ${check.passed ? '#e8f5e9' : '#fee'}; border-radius: 6px; border-left: 4px solid ${check.passed ? '#4CAF50' : '#f44336'};">
+            <div style="font-weight: 600; color: #2c3e50; margin-bottom: 4px;">
+              ${check.passed ? '✅' : '❌'} ${check.name}
+            </div>
+            <div style="font-size: 13px; color: #666;">
+              ${check.message}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      ${result.passed ? `
+        <div style="margin-top: 16px; padding: 16px; background: #e3f2fd; border-radius: 6px;">
+          <div style="font-weight: 600; color: #1976d2; margin-bottom: 8px;">✨ What This Means</div>
+          <ul style="margin: 0; padding-left: 20px; color: #1565c0; font-size: 13px; line-height: 1.6;">
+            <li>All your data stays on YOUR device</li>
+            <li>No data is sent to external servers</li>
+            <li>Extension works completely offline</li>
+            <li>Your cookies are never modified</li>
+            <li>100% privacy-respecting operation</li>
+          </ul>
+        </div>
+      ` : ''}
+    `;
+  } catch (error) {
+    const progress = modal.querySelector('#testProgress') as HTMLElement;
+    const results = modal.querySelector('#testResults') as HTMLElement;
+    progress.style.display = 'none';
+    results.style.display = 'block';
+    results.innerHTML = `
+      <div style="text-align: center; color: #f44336;">
+        <div style="font-size: 48px; margin-bottom: 12px;">❌</div>
+        <div style="font-weight: 600; margin-bottom: 8px;">Test Failed</div>
+        <div style="font-size: 14px; color: #8899a6;">Error: ${String(error)}</div>
+      </div>
+    `;
+  }
 
   // Close handlers
   const closeModal = () => {
