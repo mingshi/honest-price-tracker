@@ -9,9 +9,16 @@
     "alarms"
   ],
   "host_permissions": [
-    "https://www.amazon.com/*",
-    "https://www.ebay.com/*",
-    "https://www.walmart.com/*"
+    "https://*.amazon.com/*",
+    "https://*.amazon.co.uk/*",
+    "https://*.amazon.de/*",
+    "https://*.amazon.fr/*",
+    "https://*.amazon.it/*",
+    "https://*.amazon.es/*",
+    "https://*.amazon.ca/*",
+    "https://*.amazon.co.jp/*",
+    "https://*.ebay.com/*",
+    "https://*.walmart.com/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -27,9 +34,16 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.amazon.com/*",
-        "https://www.ebay.com/*",
-        "https://www.walmart.com/*"
+        "https://*.amazon.com/*",
+        "https://*.amazon.co.uk/*",
+        "https://*.amazon.de/*",
+        "https://*.amazon.fr/*",
+        "https://*.amazon.it/*",
+        "https://*.amazon.es/*",
+        "https://*.amazon.ca/*",
+        "https://*.amazon.co.jp/*",
+        "https://*.ebay.com/*",
+        "https://*.walmart.com/*"
       ],
       "js": ["content.js"],
       "css": ["content.css"]
