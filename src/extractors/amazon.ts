@@ -136,18 +136,58 @@ function extractTitle(): string | null {
  * Amazon has complex price display logic
  */
 function extractPrice(): { success: boolean; price?: number; currency?: string; error?: string } {
-  // Strategy 1: Look for common price elements
-  const priceSelectors = [
-    '.a-price-whole', // Current price
-    '.a-price[data-a-color="price"] .a-offscreen', // Offscreen price (for screen readers)
-    '#corePrice_feature_div .a-price-whole', // Feature div price
-    '#priceblock_ourprice', // Our price
-    '#priceblock_dealprice', // Deal price
-    '#priceblock_saleprice', // Sale price
-    '[class*="price"]'
+  // Strategy 1: Offscreen elements (most reliable, includes decimals)
+  const offscreenSelectors = [
+    '.a-price[data-a-color="price"] .a-offscreen',
+    '.a-price .a-offscreen',
+    '[class*="price"] .a-offscreen'
+  ];
+  
+  for (const selector of offscreenSelectors) {
+    const element = document.querySelector(selector);
+    if (element) {
+      const priceText = element.textContent || element.getAttribute('content');
+      if (priceText) {
+        const parsed = parsePrice(priceText);
+        if (parsed.success) {
+          return parsed;
+        }
+      }
+    }
+  }
+  
+  // Strategy 2: Combine whole + fraction parts
+  const priceContainer = document.querySelector('.a-price[data-a-color="price"]') || 
+                        document.querySelector('.a-price');
+  if (priceContainer) {
+    const wholeElem = priceContainer.querySelector('.a-price-whole');
+    const fractionElem = priceContainer.querySelector('.a-price-fraction');
+    
+    if (wholeElem) {
+      const wholeText = wholeElem.textContent?.trim() || '';
+      const fractionText = fractionElem?.textContent?.trim() || '00';
+      
+      // Find currency symbol
+      const symbolElem = priceContainer.querySelector('.a-price-symbol');
+      const currency = symbolElem?.textContent?.trim() || '$';
+      
+      const combinedPrice = `${currency}${wholeText}.${fractionText}`;
+      const parsed = parsePrice(combinedPrice);
+      if (parsed.success) {
+        return parsed;
+      }
+    }
+  }
+  
+  // Strategy 3: Legacy price blocks
+  const legacySelectors = [
+    '#priceblock_ourprice',
+    '#priceblock_dealprice',
+    '#priceblock_saleprice',
+    '#corePrice_feature_div .a-price-whole'
   ];
 
-  for (const selector of priceSelectors) {
+  for (const selector of legacySelectors) {
     const element = document.querySelector(selector);
     if (element) {
       const priceText = element.textContent || element.getAttribute('content');
