@@ -3,7 +3,7 @@
 **项目目标**: 开发第一个诚实且隐私优先的价格追踪Chrome扩展  
 **开始时间**: 2026-03-17 17:25  
 **预计完成**: 2026-04-07 (21天)  
-**当前进度**: 27/31 任务 (87%) - ✅ Task 3.9完成
+**当前进度**: 28/31 任务 (90%) - ✅ 营销+对比网站完成
 
 ---
 
@@ -330,11 +330,17 @@ _无_
   - 输出: README.md (11.5KB)
   - 实际耗时: 18分钟
 
-- [ ] **Task 3.7**: 创建对比表网站
-  - honest-price-tracker.com/vs/honey
-  - 表格对比Honey vs Keepa vs 我们
-  - SEO优化
-  - 预计: 6小时
+- [x] **Task 3.7**: 创建对比表网站 ✅ (2026-03-17 23:50完成)
+  - ✅ 完整对比表（4大类目，31个对比项）
+  - ✅ vs Honey (隐私、Cookie劫持、假优惠券)
+  - ✅ vs Keepa (本地vs云端、开源vs闭源)
+  - ✅ 响应式设计（移动端友好）
+  - ✅ SEO优化（meta标签、Open Graph）
+  - ✅ CTA按钮（Chrome Web Store + GitHub）
+  - ✅ Honey警告框（Cookie劫持说明）
+  - ✅ 使用建议（哪种工具适合谁）
+  - 输出: comparison/index.html (20KB)
+  - 实际耗时: 10分钟
 
 - [ ] **Task 3.8**: Chrome Web Store提交
   - 提交审核

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Honest Price Tracker vs Honey vs Keepa - Feature Comparison</title>
+  <meta name="description" content="Compare Honest Price Tracker, Honey, and Keepa. See why our privacy-first price tracker doesn't hijack your cookies or sell your data.">
+  <meta name="keywords" content="price tracker, honey alternative, keepa alternative, privacy, cookie hijacking, chrome extension">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Honest Price Tracker vs Honey vs Keepa">
+  <meta property="og:description" content="Privacy-first price tracking without cookie hijacking or data selling">
+  <meta property="og:type" content="website">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 60px 40px;
+      text-align: center;
+    }
+    
+    h1 {
+      font-size: 48px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    
+    .subtitle {
+      font-size: 20px;
+      opacity: 0.95;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    .btn {
+      padding: 14px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    
+    .btn-primary {
+      background: white;
+      color: #667eea;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    
+    .btn-secondary {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: 2px solid white;
+    }
+    
+    .btn-secondary:hover {
+      background: white;
+      color: #667eea;
+    }
+    
+    main {
+      padding: 60px 40px;
+    }
+    
+    .intro {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto 50px;
+    }
+    
+    .intro h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+    
+    .intro p {
+      font-size: 18px;
+      color: #666;
+      line-height: 1.8;
+    }
+    
+    .comparison-table-wrapper {
+      overflow-x: auto;
+      margin-bottom: 60px;
+    }
+    
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+    
+    .comparison-table th {
+      background: #f8f9fa;
+      padding: 20px 16px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 3px solid #dee2e6;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    .comparison-table th:first-child {
+      width: 35%;
+      background: #667eea;
+      color: white;
+    }
+    
+    .comparison-table th.us {
+      background: #10b981;
+      color: white;
+    }
+    
+    .comparison-table th.honey {
+      background: #f59e0b;
+      color: white;
+    }
+    
+    .comparison-table th.keepa {
+      background: #3b82f6;
+      color: white;
+    }
+    
+    .comparison-table td {
+      padding: 16px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .comparison-table tbody tr:hover {
+      background: #f8f9fa;
+    }
+    
+    .comparison-table td:first-child {
+      font-weight: 500;
+      color: #2c3e50;
+    }
+    
+    .check {
+      color: #10b981;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    
+    .cross {
+      color: #ef4444;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    
+    .partial {
+      color: #f59e0b;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    
+    .category-header {
+      background: #f8f9fa !important;
+      font-weight: 700;
+      font-size: 16px;
+      color: #667eea;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .highlight-box {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 20px;
+      margin: 40px 0;
+      border-radius: 8px;
+    }
+    
+    .highlight-box h3 {
+      color: #92400e;
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+    
+    .highlight-box p {
+      color: #78350f;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .stars {
+      color: #fbbf24;
+    }
+    
+    .trustpilot-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      background: #00b67a;
+      color: white;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .warning-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      background: #ef4444;
+      color: white;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    footer {
+      background: #2c3e50;
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+    
+    footer p {
+      margin-bottom: 20px;
+    }
+    
+    footer a {
+      color: #10b981;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    footer a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 32px;
+      }
+      
+      .subtitle {
+        font-size: 16px;
+      }
+      
+      header, main {
+        padding: 40px 20px;
+      }
+      
+      .comparison-table {
+        font-size: 13px;
+      }
+      
+      .comparison-table th,
+      .comparison-table td {
+        padding: 12px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📊 Honest Price Tracker vs Competitors</h1>
+      <p class="subtitle">
+        Compare privacy-first price tracking with Honey's cookie hijacking and Keepa's data collection. 
+        See why 100% local processing beats corporate surveillance.
+      </p>
+      <div class="cta-buttons">
+        <a href="https://chrome.google.com/webstore" class="btn btn-primary">Add to Chrome (Free)</a>
+        <a href="https://github.com/mingshi/honest-price-tracker" class="btn btn-secondary">View on GitHub</a>
+      </div>
+    </header>
+    
+    <main>
+      <div class="intro">
+        <h2>Why We Built a Honey Alternative</h2>
+        <p>
+          Honey has 20 million users but a 1.7★ Trustpilot rating. Why? Cookie hijacking, fake coupons, and selling your data. 
+          We built Honest Price Tracker to do price tracking <strong>the right way</strong> - 
+          100% local processing, zero data uploads, and complete transparency through open source code.
+        </p>
+      </div>
+      
+      <div class="comparison-table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th class="us">Honest Price Tracker</th>
+              <th class="honey">Honey</th>
+              <th class="keepa">Keepa</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- PRIVACY & TRUST -->
+            <tr>
+              <td colspan="4" class="category-header">🔒 Privacy & Trust</td>
+            </tr>
+            <tr>
+              <td>Data Processing</td>
+              <td><span class="check">✓</span> 100% local (on your device)</td>
+              <td><span class="cross">✗</span> Uploads to cloud servers</td>
+              <td><span class="cross">✗</span> Uploads to cloud servers</td>
+            </tr>
+            <tr>
+              <td>Cookie Access</td>
+              <td><span class="check">✓</span> No cookies permission (impossible to hijack)</td>
+              <td><span class="cross">✗</span> Full cookie access + hijacking</td>
+              <td><span class="partial">~</span> Cookie access (but doesn't hijack)</td>
+            </tr>
+            <tr>
+              <td>Open Source</td>
+              <td><span class="check">✓</span> Fully open (audit the code)</td>
+              <td><span class="cross">✗</span> Closed source (black box)</td>
+              <td><span class="cross">✗</span> Closed source (black box)</td>
+            </tr>
+            <tr>
+              <td>Privacy Test</td>
+              <td><span class="check">✓</span> Built-in offline test (🔒 button)</td>
+              <td><span class="cross">✗</span> None</td>
+              <td><span class="cross">✗</span> None</td>
+            </tr>
+            <tr>
+              <td>Account Required</td>
+              <td><span class="check">✓</span> No account needed</td>
+              <td><span class="cross">✗</span> Requires account for cashback</td>
+              <td><span class="check">✓</span> No account (but tracks via cookies)</td>
+            </tr>
+            <tr>
+              <td>Sells Your Data</td>
+              <td><span class="check">✓</span> Never (no data = nothing to sell)</td>
+              <td><span class="cross">✗</span> Yes (browsing history to advertisers)</td>
+              <td><span class="partial">~</span> "Anonymous" aggregate data</td>
+            </tr>
+            <tr>
+              <td>Trustpilot Rating</td>
+              <td>
+                <div class="rating">
+                  <span class="stars">⭐⭐⭐⭐⭐</span>
+                  <span class="trustpilot-badge">NEW</span>
+                </div>
+              </td>
+              <td>
+                <div class="rating">
+                  <span class="stars">⭐</span>
+                  <span class="warning-badge">1.7★ "Bad"</span>
+                </div>
+              </td>
+              <td>
+                <div class="rating">
+                  <span class="stars">⭐⭐⭐⭐</span>
+                  <span>4.1★ "Great"</span>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- PRICE TRACKING -->
+            <tr>
+              <td colspan="4" class="category-header">📈 Price Tracking</td>
+            </tr>
+            <tr>
+              <td>Automatic Price Tracking</td>
+              <td><span class="check">✓</span> Auto-tracks visited products</td>
+              <td><span class="partial">~</span> Tracks via cloud (requires account)</td>
+              <td><span class="partial">~</span> Requires copying URL to site</td>
+            </tr>
+            <tr>
+              <td>Price Drop Alerts</td>
+              <td><span class="check">✓</span> Browser notifications (instant)</td>
+              <td><span class="check">✓</span> Email alerts (delayed)</td>
+              <td><span class="check">✓</span> Email/browser alerts</td>
+            </tr>
+            <tr>
+              <td>Price History Charts</td>
+              <td><span class="check">✓</span> Embedded in product page + popup</td>
+              <td><span class="cross">✗</span> None</td>
+              <td><span class="check">✓</span> Detailed graphs (best feature)</td>
+            </tr>
+            <tr>
+              <td>Historical Data Depth</td>
+              <td><span class="partial">~</span> Since you started tracking</td>
+              <td><span class="cross">✗</span> N/A (no history)</td>
+              <td><span class="check">✓</span> Years of data (crowd-sourced)</td>
+            </tr>
+            <tr>
+              <td>Target Price Alerts</td>
+              <td><span class="check">✓</span> Set custom price targets</td>
+              <td><span class="cross">✗</span> None</td>
+              <td><span class="check">✓</span> Price watch alerts</td>
+            </tr>
+            <tr>
+              <td>In-Page Widget</td>
+              <td><span class="check">✓</span> Keepa-style widget (chart + stats)</td>
+              <td><span class="cross">✗</span> Just a popup button</td>
+              <td><span class="check">✓</span> Iconic widget (original)</td>
+            </tr>
+            
+            <!-- COUPONS & SAVINGS -->
+            <tr>
+              <td colspan="4" class="category-header">💰 Coupons & Savings</td>
+            </tr>
+            <tr>
+              <td>Coupon Finding</td>
+              <td><span class="check">✓</span> Coming in v0.2</td>
+              <td><span class="check">✓</span> Auto-applies at checkout</td>
+              <td><span class="cross">✗</span> None</td>
+            </tr>
+            <tr>
+              <td>Coupon Success Rates</td>
+              <td><span class="check">✓</span> Real testing (2/10 worked = 20%)</td>
+              <td><span class="cross">✗</span> Fake ("8 found" but 0 work)</td>
+              <td><span class="cross">✗</span> N/A</td>
+            </tr>
+            <tr>
+              <td>Affiliate Hijacking</td>
+              <td><span class="check">✓</span> Impossible (no cookie access)</td>
+              <td><span class="cross">✗</span> Yes (replaces your affiliate links)</td>
+              <td><span class="check">✓</span> No hijacking</td>
+            </tr>
+            <tr>
+              <td>Cashback Program</td>
+              <td><span class="cross">✗</span> None (coming v0.3)</td>
+              <td><span class="check">✓</span> Honey Gold (but hijacks others)</td>
+              <td><span class="cross">✗</span> None</td>
+            </tr>
+            
+            <!-- SUPPORTED RETAILERS -->
+            <tr>
+              <td colspan="4" class="category-header">🛒 Supported Retailers</td>
+            </tr>
+            <tr>
+              <td>Amazon</td>
+              <td><span class="check">✓</span> Full support</td>
+              <td><span class="check">✓</span> Supported</td>
+              <td><span class="check">✓</span> Excellent support (10+ years data)</td>
+            </tr>
+            <tr>
+              <td>eBay</td>
+              <td><span class="partial">~</span> Coming in v0.2</td>
+              <td><span class="check">✓</span> Supported</td>
+              <td><span class="check">✓</span> Supported</td>
+            </tr>
+            <tr>
+              <td>Walmart</td>
+              <td><span class="partial">~</span> Coming in v0.2</td>
+              <td><span class="check">✓</span> Supported</td>
+              <td><span class="check">✓</span> Supported</td>
+            </tr>
+            <tr>
+              <td>Other Retailers</td>
+              <td><span class="partial">~</span> Roadmap (user-voted)</td>
+              <td><span class="check">✓</span> 30,000+ stores</td>
+              <td><span class="check">✓</span> Amazon-focused (best coverage)</td>
+            </tr>
+            
+            <!-- USER EXPERIENCE -->
+            <tr>
+              <td colspan="4" class="category-header">✨ User Experience</td>
+            </tr>
+            <tr>
+              <td>Setup Time</td>
+              <td><span class="check">✓</span> 30 seconds (no account)</td>
+              <td><span class="partial">~</span> 2 minutes (account required)</td>
+              <td><span class="check">✓</span> 1 minute (no account)</td>
+            </tr>
+            <tr>
+              <td>Popup UI</td>
+              <td><span class="check">✓</span> Modern, fast, tracked products list</td>
+              <td><span class="partial">~</span> Basic popup</td>
+              <td><span class="check">✓</span> Detailed product page</td>
+            </tr>
+            <tr>
+              <td>Mobile Support</td>
+              <td><span class="cross">✗</span> Desktop only (Chrome extension)</td>
+              <td><span class="check">✓</span> Mobile app available</td>
+              <td><span class="check">✓</span> Mobile app available</td>
+            </tr>
+            <tr>
+              <td>Data Export</td>
+              <td><span class="check">✓</span> JSON export (GDPR-compliant)</td>
+              <td><span class="cross">✗</span> None</td>
+              <td><span class="partial">~</span> CSV via website</td>
+            </tr>
+            
+            <!-- BUSINESS MODEL -->
+            <tr>
+              <td colspan="4" class="category-header">💵 Business Model</td>
+            </tr>
+            <tr>
+              <td>Pricing</td>
+              <td><span class="check">✓</span> Free forever (core features)</td>
+              <td><span class="check">✓</span> Free (but you pay with data)</td>
+              <td><span class="partial">~</span> Freemium ($17-$39/mo for pro)</td>
+            </tr>
+            <tr>
+              <td>Revenue Source</td>
+              <td><span class="check">✓</span> Donations + optional paid features</td>
+              <td><span class="cross">✗</span> Affiliate hijacking + data selling</td>
+              <td><span class="check">✓</span> Subscriptions + affiliate (honest)</td>
+            </tr>
+            <tr>
+              <td>Ads</td>
+              <td><span class="check">✓</span> Never</td>
+              <td><span class="cross">✗</span> Partners' product recommendations</td>
+              <td><span class="check">✓</span> None</td>
+            </tr>
+            <tr>
+              <td>Ownership</td>
+              <td><span class="check">✓</span> Independent open-source project</td>
+              <td><span class="cross">✗</span> PayPal ($4B acquisition)</td>
+              <td><span class="partial">~</span> Independent company (VC-backed)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="highlight-box">
+        <h3>⚠️ Warning: Honey's Cookie Hijacking</h3>
+        <p>
+          <strong>How it works:</strong> You click an affiliate link → Honey detects checkout → Replaces the cookie → Takes the commission → 
+          Original blogger gets $0 → You still pay full price. 
+          <br><br>
+          <strong>Why it's bad:</strong> Honey has 20M users stealing commissions from content creators who helped you find the product. 
+          It's legal, but it's stealing. That's why they have a 1.7★ Trustpilot rating (53 verified complaints).
+          <br><br>
+          <strong>Our promise:</strong> We can't hijack cookies (we don't have permission in manifest.json). Verify it yourself in the source code.
+        </p>
+      </div>
+      
+      <div class="intro">
+        <h2>Which Should You Choose?</h2>
+        <p style="text-align: left; max-width: 800px; margin: 20px auto;">
+          <strong style="color: #10b981;">Choose Honest Price Tracker if you want:</strong>
+          <br>• 100% privacy (zero data uploads)
+          <br>• Open source transparency
+          <br>• Modern UI with automatic tracking
+          <br>• No account required
+          <br><br>
+          <strong style="color: #3b82f6;">Choose Keepa if you need:</strong>
+          <br>• Years of historical data (crowd-sourced)
+          <br>• Best Amazon coverage (10+ years)
+          <br>• Mobile app
+          <br>• Don't mind data uploads
+          <br><br>
+          <strong style="color: #ef4444;">Avoid Honey if you care about:</strong>
+          <br>• Privacy (they sell your data)
+          <br>• Supporting content creators (they hijack affiliate links)
+          <br>• Actually saving money (fake coupons waste your time)
+          <br>• Ethics (1.7★ Trustpilot rating for a reason)
+        </p>
+      </div>
+      
+      <div style="text-align: center; margin-top: 60px;">
+        <h2 style="margin-bottom: 20px;">Ready to Switch?</h2>
+        <div class="cta-buttons">
+          <a href="https://chrome.google.com/webstore" class="btn btn-primary">Install Honest Price Tracker</a>
+          <a href="https://github.com/mingshi/honest-price-tracker" class="btn btn-secondary">Audit the Code on GitHub</a>
+        </div>
+      </div>
+    </main>
+    
+    <footer>
+      <p><strong>Honest Price Tracker</strong> - Price tracking without the privacy invasion</p>
+      <p>
+        <a href="https://github.com/mingshi/honest-price-tracker">GitHub</a> · 
+        <a href="https://github.com/mingshi/honest-price-tracker/blob/main/PRIVACY_POLICY.md">Privacy Policy</a> · 
+        <a href="https://github.com/mingshi/honest-price-tracker/blob/main/README.md">Documentation</a>
+      </p>
+      <p style="font-size: 14px; color: #aaa; margin-top: 20px;">
+        © 2024 Honest Price Tracker. Open source MIT License.
+        <br>Not affiliated with Honey, Keepa, Amazon, or any retailer.
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
