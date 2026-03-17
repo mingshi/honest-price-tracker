@@ -62,8 +62,8 @@ const injectPriceHistoryUI = () => {
   console.log('Injecting price history UI...');
 };
 
-// Main initialization
-const init = () => {
+// Main initialization with retry logic for SPA pages
+const init = (retryCount = 0) => {
   const retailer = detectRetailer();
   
   if (!retailer) {
@@ -71,15 +71,31 @@ const init = () => {
     return;
   }
   
-  console.log(`Detected retailer: ${retailer}`);
+  console.log(`Detected retailer: ${retailer} (attempt ${retryCount + 1})`);
   
   // Extract product data
   const productData = extractProductData(retailer);
   
   if (!productData) {
     console.log('Could not extract product data');
+    
+    // Retry up to 3 times with increasing delays for SPA pages
+    if (retryCount < 3) {
+      const delay = (retryCount + 1) * 1000; // 1s, 2s, 3s
+      console.log(`Retrying extraction in ${delay}ms...`);
+      setTimeout(() => init(retryCount + 1), delay);
+      return;
+    }
+    
+    console.error('Failed to extract product data after 3 attempts');
     return;
   }
+  
+  console.log('Product data extracted successfully:', {
+    title: productData.title.substring(0, 50) + '...',
+    price: productData.price,
+    currency: productData.currency
+  });
   
   // Send to background for storage
   chrome.runtime.sendMessage({
@@ -147,7 +163,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 // Run when page is ready
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('DOMContentLoaded', () => init());
 } else {
   init();
 }
@@ -159,6 +175,6 @@ new MutationObserver(() => {
   if (url !== lastUrl) {
     lastUrl = url;
     console.log('URL changed, re-initializing...');
-    setTimeout(init, 1000); // Wait for page to settle
+    setTimeout(() => init(), 1000); // Wait for page to settle
   }
 }).observe(document, { subtree: true, childList: true });
