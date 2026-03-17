@@ -51,6 +51,11 @@ export function extractAmazonProduct(): ExtractionResult {
     // Extract availability
     const availability = extractAvailability();
 
+    // Build canonical product URL using ASIN
+    // This ensures we always link to the product page, not search results or category pages
+    const hostname = window.location.hostname;
+    const canonicalUrl = `https://${hostname}/dp/${asin}`;
+    
     return {
       success: true,
       product: {
@@ -59,7 +64,7 @@ export function extractAmazonProduct(): ExtractionResult {
         price: priceResult.price!,
         currency: priceResult.currency!,
         productId: asin,
-        url: window.location.href,
+        url: canonicalUrl,  // Use canonical URL instead of window.location.href
         imageUrl,
         availability,
         timestamp: Date.now()
