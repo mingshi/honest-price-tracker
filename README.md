@@ -77,8 +77,8 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## 💬 Support
 
-- GitHub Issues: [Report bugs](https://github.com/YOUR_USERNAME/honest-price-tracker/issues)
-- Reddit: r/HonestPriceTracker (coming soon)
+- GitHub Issues: [Report bugs](https://github.com/mingshi/honest-price-tracker/issues)
+- Website: https://honest-price-tracker.tokensdance.ai (coming soon)
 
 ---
 

@@ -375,9 +375,9 @@ Our code is **fully open source** on GitHub:
 
 If you have questions about this privacy policy:
 
-- **GitHub Issues**: https://github.com/honest-price-tracker/issues
-- **Email**: privacy@honest-price-tracker.com (coming soon)
-- **Website**: https://honest-price-tracker.com (coming soon)
+- **GitHub Issues**: https://github.com/mingshi/honest-price-tracker/issues
+- **Email**: privacy@tokensdance.ai
+- **Website**: https://honest-price-tracker.tokensdance.ai
 
 ---
 
