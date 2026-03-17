@@ -394,6 +394,12 @@ body {
   width: 90%;
   max-width: 360px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.chart-modal {
+  max-width: 480px;
 }
 
 .modal-header {

@@ -4,6 +4,7 @@
  */
 
 import { TrackedProduct, PriceAlert } from '../storage/db';
+import { createPriceChart } from '../components/PriceChart';
 
 // DOM Elements
 let productListEl: HTMLElement;
@@ -112,11 +113,13 @@ function renderProducts(): void {
     const alertBtn = card.querySelector('.btn-alert');
     const deleteBtn = card.querySelector('.btn-delete');
     const checkNowBtn = card.querySelector('.btn-check-now');
+    const chartBtn = card.querySelector('.btn-chart');
 
     viewBtn?.addEventListener('click', () => handleViewProduct(product));
     alertBtn?.addEventListener('click', () => handleSetAlert(product));
     deleteBtn?.addEventListener('click', () => handleDeleteProduct(product));
     checkNowBtn?.addEventListener('click', () => handleCheckNow(product));
+    chartBtn?.addEventListener('click', () => handleShowChart(product));
   });
 }
 
@@ -169,6 +172,7 @@ function createProductCard(product: TrackedProduct): string {
 
       <div class="product-actions">
         <button class="btn btn-primary btn-view">View</button>
+        <button class="btn btn-secondary btn-chart">📈 Chart</button>
         <button class="btn btn-secondary btn-alert">🔔 Alert</button>
         <button class="btn btn-secondary btn-check-now">🔄</button>
         <button class="btn btn-danger btn-delete">Delete</button>
@@ -322,6 +326,110 @@ async function handleCheckNow(product: TrackedProduct): Promise<void> {
     console.error('Error checking product:', error);
     alert('Error checking product');
   }
+}
+
+/**
+ * Handle show chart
+ */
+async function handleShowChart(product: TrackedProduct): Promise<void> {
+  try {
+    // Get price history
+    const response = await chrome.runtime.sendMessage({
+      type: 'GET_PRICE_HISTORY',
+      productId: product.id,
+      limit: 30 // Last 30 price points
+    });
+
+    if (!response.success) {
+      alert(`Failed to load price history: ${response.error}`);
+      return;
+    }
+
+    const priceHistory = response.history || [];
+
+    if (priceHistory.length === 0) {
+      alert('No price history available yet. The extension will record prices over time.');
+      return;
+    }
+
+    // Show chart modal
+    showChartModal(product, priceHistory);
+  } catch (error) {
+    console.error('Error loading price history:', error);
+    alert('Error loading price history');
+  }
+}
+
+/**
+ * Show chart in modal
+ */
+function showChartModal(product: TrackedProduct, priceHistory: any[]): void {
+  // Create modal
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal chart-modal">
+      <div class="modal-header">
+        <span>${escapeHtml(product.title)}</span>
+        <button class="modal-close" style="float: right; background: none; border: none; font-size: 24px; cursor: pointer; color: #8899a6;">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="chartContainer" style="width: 100%; height: 250px; margin: 16px 0;"></div>
+        <div style="margin-top: 16px; padding: 12px; background: #f5f7fa; border-radius: 4px; font-size: 12px;">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+            <div>
+              <div style="color: #8899a6;">Current Price</div>
+              <div style="font-weight: 600; color: #2196F3;">${product.currency}${product.currentPrice.toFixed(2)}</div>
+            </div>
+            <div>
+              <div style="color: #8899a6;">Lowest Price</div>
+              <div style="font-weight: 600; color: #4CAF50;">${product.currency}${product.lowestPrice.toFixed(2)}</div>
+            </div>
+            <div>
+              <div style="color: #8899a6;">Highest Price</div>
+              <div style="font-weight: 600; color: #f44336;">${product.currency}${product.highestPrice.toFixed(2)}</div>
+            </div>
+          </div>
+          <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #e1e8ed;">
+            <div style="color: #8899a6;">Price Checks: ${product.checkCount} times</div>
+            <div style="color: #8899a6; margin-top: 4px;">Data Points: ${priceHistory.length}</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary modal-close-btn">Close</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  // Get chart container
+  const chartContainer = modal.querySelector('#chartContainer') as HTMLElement;
+
+  // Create chart
+  createPriceChart({
+    container: chartContainer,
+    data: priceHistory,
+    currency: product.currency,
+    currentPrice: product.currentPrice,
+    lowestPrice: product.lowestPrice,
+    highestPrice: product.highestPrice,
+    averagePrice: product.averagePrice
+  });
+
+  // Close handlers
+  const closeModal = () => {
+    modal.remove();
+  };
+
+  modal.querySelector('.modal-close')?.addEventListener('click', closeModal);
+  modal.querySelector('.modal-close-btn')?.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
 }
 
 /**
