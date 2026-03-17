@@ -4,6 +4,7 @@
  */
 
 import { extractAmazonProduct, isAmazonProductPage } from '../extractors/amazon';
+import { injectPriceHistory } from './inject';
 
 console.log('Honest Price Tracker content script loaded');
 
@@ -89,6 +90,13 @@ const init = () => {
       console.log('Product tracked successfully');
       // Inject UI after successful tracking
       injectPriceHistoryUI();
+      
+      // Also inject price history widget on product page
+      if (retailer && productData.productId) {
+        setTimeout(() => {
+          injectPriceHistory(productData.productId, retailer);
+        }, 1000); // Wait for page to settle
+      }
     } else {
       console.error('Failed to track product:', response?.error);
     }
