@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Logo Variation 1: Primary (Green Circle) -->
+  <g id="primary-logo" transform="translate(100, 100)">
+    <circle cx="64" cy="64" r="64" fill="#4CAF50"/>
+    <text x="64" y="90" font-family="Arial, sans-serif" font-size="64" text-anchor="middle" fill="white">💰</text>
+    <text x="64" y="160" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#2c3e50">Honest Price Tracker</text>
+  </g>
+  
+  <!-- Logo Variation 2: Horizontal Layout -->
+  <g id="horizontal-logo" transform="translate(100, 300)">
+    <circle cx="32" cy="32" r="32" fill="#4CAF50"/>
+    <text x="32" y="44" font-family="Arial, sans-serif" font-size="32" text-anchor="middle" fill="white">💰</text>
+    <text x="80" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2c3e50">Honest Price Tracker</text>
+    <text x="80" y="56" font-family="Arial, sans-serif" font-size="12" fill="#8899a6">Privacy-first price tracking</text>
+  </g>
+  
+  <!-- Logo Variation 3: Icon Only -->
+  <g id="icon-only" transform="translate(500, 100)">
+    <rect x="0" y="0" width="128" height="128" rx="24" fill="#4CAF50"/>
+    <text x="64" y="90" font-family="Arial, sans-serif" font-size="72" text-anchor="middle" fill="white">💰</text>
+  </g>
+  
+  <!-- Logo Variation 4: Text Only -->
+  <g id="text-only" transform="translate(500, 300)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#4CAF50">HONEST</text>
+    <text x="0" y="28" font-family="Arial, sans-serif" font-size="24" fill="#2c3e50">Price Tracker</text>
+  </g>
+</svg>

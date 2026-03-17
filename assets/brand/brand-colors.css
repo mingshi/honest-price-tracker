@@ -1,0 +1,86 @@
+/* Brand Colors - Honest Price Tracker */
+
+:root {
+  /* Primary Colors */
+  --brand-green: #4CAF50;
+  --brand-green-dark: #45a049;
+  --brand-green-light: #81C784;
+  
+  /* Neutral Colors */
+  --dark-gray: #2c3e50;
+  --medium-gray: #8899a6;
+  --light-gray: #f5f7fa;
+  --border-gray: #e1e8ed;
+  --white: #FFFFFF;
+  
+  /* Accent Colors */
+  --info-blue: #2196F3;
+  --success-green: #4CAF50;
+  --warning-orange: #ff9800;
+  --error-red: #f44336;
+  
+  /* Backgrounds */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #f5f7fa;
+  --bg-tertiary: #e8f5e9;
+  
+  /* Text Colors */
+  --text-primary: #2c3e50;
+  --text-secondary: #8899a6;
+  --text-on-dark: #FFFFFF;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.2);
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+  
+  /* Spacing (8px grid) */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 13px;
+  --font-size-base: 15px;
+  --font-size-lg: 18px;
+  --font-size-xl: 24px;
+  --font-size-2xl: 32px;
+  --font-size-3xl: 48px;
+  
+  /* Animations */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* Utility Classes */
+.bg-brand { background-color: var(--brand-green); }
+.text-brand { color: var(--brand-green); }
+.border-brand { border-color: var(--brand-green); }
+
+.bg-success { background-color: var(--success-green); }
+.bg-warning { background-color: var(--warning-orange); }
+.bg-error { background-color: var(--error-red); }
+.bg-info { background-color: var(--info-blue); }
+
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-xl { border-radius: var(--radius-xl); }
+.rounded-full { border-radius: var(--radius-full); }
