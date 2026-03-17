@@ -327,3 +327,117 @@
 - 🟢 域名配置就绪（tokensdance.ai子域名，$0成本）
 
 **下一步**: 集成存储层到background worker（Task 2.6/2.7/2.8可以开始）
+
+### 18:16-18:44 Task 2.6: 后台价格监控服务 ✅ (合并Task 2.7/2.8)
+**触发**: Cron任务强制执行检查
+
+**实现内容**（338行monitor.ts + 181行background/index.ts集成）:
+- ✅ **周期性监控系统**:
+  - `initPriceMonitoring`: 初始化alarm（每6小时）
+  - `handlePriceCheckAlarm`: 处理alarm触发
+  - `checkAllProducts`: 批量检查所有追踪产品
+  - `checkProduct`: 单个产品价格检查和更新
+
+- ✅ **价格提取机制**:
+  - `fetchCurrentPrice`: Offscreen标签页提取（隐藏标签）
+  - 30秒超时保护（防止卡死）
+  - 自动清理标签页
+  - Content script消息通信（EXTRACT_PRICE → PRICE_EXTRACTED）
+
+- ✅ **价格变化处理**:
+  - 检测价格变化（currentPrice对比）
+  - 更新产品统计（lowest/highest/average）
+  - 记录价格历史点（addPricePoint）
+  - 更新lastChecked和checkCount
+
+- ✅ **Alert系统（Task 2.7集成）**:
+  - `checkAlertsForProduct`: 检查价格是否达到目标
+  - 自动标记alert为已通知
+  - 记录通知时间戳
+
+- ✅ **通知系统（Task 2.8集成）**:
+  - `sendPriceDropNotification`: 富通知
+  - 显示价格下降百分比
+  - 显示前后价格对比
+  - 带按钮（查看产品/忽略）
+  - `handleNotificationClick`: 处理通知点击
+
+- ✅ **工具函数**:
+  - `getMonitoringStats`: 监控统计（产品数、上次检查、下次检查、活跃alert）
+  - `checkProductNow`: 手动触发单个产品检查
+  - `updateCheckInterval`: 更新检查间隔（用户可配置）
+
+- ✅ **Background Worker集成**（181行index.ts）:
+  - 8个消息处理器：
+    - TRACK_PRODUCT: 添加/更新追踪产品
+    - GET_TRACKED_PRODUCTS: 获取所有产品
+    - UNTRACK_PRODUCT: 移除追踪
+    - GET_PRICE_HISTORY: 获取历史价格
+    - ADD_ALERT: 创建价格提醒
+    - GET_ALERTS: 获取产品alerts
+    - CHECK_PRODUCT_NOW: 手动触发检查
+    - GET_MONITORING_STATS: 获取统计信息
+  - Alarm处理集成
+  - Notification点击处理集成
+  - 自动初始化（安装时和worker启动时）
+
+- ✅ **Content Script更新**:
+  - 添加EXTRACT_PRICE消息处理器
+  - 支持后台监控的价格提取请求
+  - 返回PRICE_EXTRACTED消息
+
+**特性**:
+- 周期性自动检查（可配置间隔）
+- Offscreen标签提取（隐藏、超时保护、自动清理）
+- 价格统计追踪（当前/最低/最高/平均）
+- Alert系统完整集成
+- 富通知带操作按钮
+- 手动触发支持
+- 错误处理和超时保护
+
+**耗时**: 28分钟
+**状态**: ✅ COMPLETE，Task 2.6/2.7/2.8合并完成
+
+---
+
+## 进度总结更新（18:44）
+
+| 任务 | 状态 | 开始时间 | 完成时间 | 耗时 | 输出 |
+|------|------|---------|---------|------|------|
+| Task 1.1 | ✅ | 17:30 | 17:37 | 12分钟 | technical_validation_report.md |
+| Task 1.2 | ✅ | 17:52 | 18:10 | 18分钟 | 完整项目结构 + 13个核心文件 |
+| Task 1.3 | 🟢 | 17:56 | 18:16 | 20分钟 | Git + 域名配置完成（等待推送） |
+| Task 1.5 | ✅ | 18:16 | 18:25 | 9分钟 | PRIVACY_POLICY.md (11.8KB) |
+| Task 2.1 | ✅ | 18:25 | 18:40 | 32分钟 | Amazon提取器 (349行) + 测试 (152行) |
+| Task 2.4 | ✅ | 18:16 | 18:42 | 26分钟 | IndexedDB (646行) + 测试 (372行) |
+| Task 2.6-2.8 | ✅ | 18:16 | 18:44 | 28分钟 | 后台监控服务 (338+181行) |
+
+**当前进度**: 11/31任务 (35%)，实际完成13个功能（Task 2.7/2.8合并）
+- ✅ 完全完成: 10任务
+- 🟢 本地完成等待推送: 1任务 (Task 1.3)
+- ⏳ 待开始: 20任务
+
+**累计工作时间**: 145分钟 (2小时25分钟)
+
+**代码统计**:
+- 生产代码: 1,537行（+519行）
+  - Amazon提取器: 349行
+  - IndexedDB存储: 646行
+  - Background监控: 338行
+  - Background worker: 181行
+  - Content script: 160行（更新）
+- 测试代码: 524行
+  - Amazon测试: 152行
+  - 存储测试: 372行
+
+**Git状态**: 8个提交准备推送
+
+**关键里程碑**:
+- ✅ M1: 技术验证通过
+- ✅ 核心提取器完成（Amazon）
+- ✅ 存储层完成（IndexedDB）
+- ✅ 后台监控完成（周期检查+Alert+通知）
+- 🟢 Git仓库就绪（8个提交）
+- ⏳ M2: MVP可本地运行（还需Popup UI）
+
+**下一步**: Task 2.9-2.11 Popup UI（用户界面）

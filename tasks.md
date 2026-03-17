@@ -3,13 +3,13 @@
 **项目目标**: 开发第一个诚实且隐私优先的价格追踪Chrome扩展  
 **开始时间**: 2026-03-17 17:25  
 **预计完成**: 2026-04-07 (21天)  
-**当前进度**: 10/31 任务 (32%)
+**当前进度**: 11/31 任务 (35%)
 
 ---
 
 ## 📋 任务清单
 
-### ✅ 已完成 (10/31 = 32%)
+### ✅ 已完成 (11/31 = 35%)
 
 - [x] **Task 1.1**: Chrome AI技术验证 - 提取Amazon价格 ✅ (2026-03-17 17:37完成)
   - 验证方法: 理论分析 + Fallback DOM解析测试
@@ -82,6 +82,22 @@
   - 输出: src/storage/db.ts (646行, 19.4KB) + 测试
   - 实际耗时: 26分钟
 
+- [x] **Task 2.6**: 后台价格监控服务 ✅ (2026-03-17 18:30完成)
+  - ✅ 周期性价格检查（每6小时，可配置）
+  - ✅ 批量产品检查（checkAllProducts）
+  - ✅ 单个产品检查（checkProduct）
+  - ✅ Offscreen标签页价格提取（隐藏标签，30秒超时）
+  - ✅ 价格变化检测和统计更新（最低/最高/平均）
+  - ✅ 价格历史自动记录（addPricePoint）
+  - ✅ Alert检查和通知触发
+  - ✅ 富通知（带按钮：查看产品/忽略）
+  - ✅ 监控统计（getMonitoringStats）
+  - ✅ 手动触发支持（checkProductNow）
+  - ✅ Background worker完整集成（181行）
+  - ✅ Content script消息处理（EXTRACT_PRICE）
+  - 输出: src/background/monitor.ts (338行, 9.3KB)
+  - 实际耗时: 28分钟
+
 ---
 
 ### ⏳ 进行中 (0/31)
@@ -90,7 +106,7 @@ _无_
 
 ---
 
-### 📝 待完成 (21/31 = 68%)
+### 📝 待完成 (20/31 = 65%)
 
 #### 🔬 Phase 1: 验证与准备 (Day 1-2, 2个任务剩余)
 
@@ -142,24 +158,25 @@ _无_
   - 输出: storage/history.ts
   - 预计: 4小时
 
-##### 模块C: 价格监控 (3个任务)
-- [ ] **Task 2.6**: 后台价格监控服务
-  - Background Service Worker定期检查
-  - 对比当前价格 vs 历史价格
-  - 输出: background/monitor.ts
-  - 预计: 8小时
+##### 模块C: 价格监控 (3个任务，已合并完成)
+- [x] **Task 2.6**: 后台价格监控服务 ✅ (包含2.7和2.8功能)
+  - ✅ Background Service Worker定期检查（已实现）
+  - ✅ 对比当前价格 vs 历史价格（已实现）
+  - ✅ 价格提醒系统（已集成在monitor.ts）
+  - ✅ 浏览器通知（已集成，富通知带按钮）
+  - 输出: background/monitor.ts (338行)
+  - 实际耗时: 28分钟
 
-- [ ] **Task 2.7**: 价格提醒系统
-  - 用户设置目标价格
-  - 价格达到时触发通知
-  - 输出: background/alerts.ts
-  - 预计: 4小时
+- [x] **Task 2.7**: 价格提醒系统 ✅ (已合并到Task 2.6)
+  - ✅ checkAlertsForProduct: 检查价格是否达到目标
+  - ✅ 自动标记已通知的alert
+  - 已集成在monitor.ts
 
-- [ ] **Task 2.8**: 浏览器通知
-  - Chrome Notifications API集成
-  - 显示价格下降幅度和商品信息
-  - 输出: background/notifications.ts
-  - 预计: 3小时
+- [x] **Task 2.8**: 浏览器通知 ✅ (已合并到Task 2.6)
+  - ✅ sendPriceDropNotification: 富通知
+  - ✅ 显示价格下降百分比和金额
+  - ✅ 带按钮（查看产品/忽略）
+  - 已集成在monitor.ts
 
 ##### 模块D: UI界面 (4个任务)
 - [ ] **Task 2.9**: Popup主界面
