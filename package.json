@@ -10,21 +10,28 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
   },
-  "keywords": ["price-tracker", "privacy", "chrome-extension", "amazon", "ebay", "walmart"],
+  "keywords": [
+    "price-tracker",
+    "privacy",
+    "chrome-extension",
+    "amazon",
+    "ebay",
+    "walmart"
+  ],
   "author": "MingshiHacking",
   "license": "MIT",
   "devDependencies": {
     "@types/chrome": "^0.0.260",
-    "@types/node": "^20.11.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.19.37",
+    "fake-indexeddb": "^5.0.2",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "ts-jest": "^29.1.1",
     "ts-loader": "^9.5.1",
     "typescript": "^5.3.3",
     "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4",
-    "jest": "^29.7.0",
-    "@types/jest": "^29.5.11",
-    "ts-jest": "^29.1.1",
-    "jest-environment-jsdom": "^29.7.0",
-    "fake-indexeddb": "^5.0.2"
+    "webpack-cli": "^5.1.4"
   },
   "dependencies": {
     "chart.js": "^4.4.1"

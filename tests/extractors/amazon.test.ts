@@ -62,7 +62,7 @@ describe('Amazon Product Extractor', () => {
       expect(result.product?.retailer).toBe('amazon');
       expect(result.product?.title).toBe('Echo Dot (4th Gen) | Smart speaker');
       expect(result.product?.price).toBe(49.99);
-      expect(result.product?.currency).toBe('$');
+      expect(result.product?.currency).toBe('USD');
       expect(result.product?.productId).toBe('B08N5WRWNW');
       expect(result.product?.imageUrl).toContain('test.jpg');
       expect(result.product?.availability).toContain('In Stock');
