@@ -239,9 +239,11 @@ async function sendPriceDropNotification(
 ): Promise<void> {
   const priceDropPercent = Math.round(((product.currentPrice - newPrice) / product.currentPrice) * 100);
 
-  const notification: chrome.notifications.NotificationOptions = {
+  const iconUrl = product.imageUrl || chrome.runtime.getURL('assets/icons/icon128.png');
+  
+  const notification: chrome.notifications.NotificationOptions<true> = {
     type: 'basic',
-    iconUrl: product.imageUrl || chrome.runtime.getURL('assets/icons/icon128.png'),
+    iconUrl: iconUrl,
     title: '🎉 Price Drop Alert!',
     message: `${product.title}\n\nPrice dropped ${priceDropPercent}%: $${product.currentPrice} → $${newPrice}\n\nYour target: $${targetPrice}`,
     priority: 2,

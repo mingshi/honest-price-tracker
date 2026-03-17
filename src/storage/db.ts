@@ -436,7 +436,7 @@ export async function getEnabledAlerts(): Promise<PriceAlert[]> {
     const store = transaction.objectStore(STORES.ALERTS);
     const index = store.index('enabled');
     
-    const request = index.getAll(true);
+    const request = index.getAll(IDBKeyRange.only(true));
     
     request.onsuccess = () => resolve(request.result);
     request.onerror = () => reject(new Error(`Failed to get enabled alerts: ${request.error}`));
