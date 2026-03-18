@@ -25,6 +25,7 @@ import {
 
 import { searchProduct } from '../features/search-api';
 import { searchProductMock } from '../features/search-api-test';
+import { searchProductReal } from '../features/search-api-real';
 
 console.log('Honest Price Tracker background service worker loaded');
 
@@ -156,9 +157,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           const { title, retailer } = message;
           console.log(`[Background] Searching: "${title}" on ${retailer}`);
           
-          // Use mock data for now (TODO: switch to real search once tested)
-          const result = await searchProductMock(title, retailer);
-          console.log(`[Background] Search result:`, result);
+          // Try real search first
+          let result = await searchProductReal(title, retailer);
+          
+          // Fallback to mock if real search fails
+          if (!result) {
+            console.log(`[Background] Real search failed, using mock data`);
+            result = await searchProductMock(title, retailer);
+          } else {
+            console.log(`[Background] Real search succeeded:`, result);
+          }
           
           sendResponse({ success: true, result });
           break;

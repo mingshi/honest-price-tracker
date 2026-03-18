@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Honest Price Tracker - Compare Prices",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Compare prices across Amazon, eBay & Walmart. Find the best deals. Privacy-first, no cookie hijacking.",
   "permissions": [
     "storage",
