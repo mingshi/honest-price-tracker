@@ -636,3 +636,17 @@ body {
   background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
   transform: translateY(-1px);
 }
+
+/* Comparison Notice */
+.comparison-notice {
+  background: #fff9e6;
+  border: 1px solid #ffd966;
+  color: #856404;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

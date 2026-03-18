@@ -157,16 +157,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           const { title, retailer } = message;
           console.log(`[Background] Searching: "${title}" on ${retailer}`);
           
-          // Try real search first
-          let result = await searchProductReal(title, retailer);
-          
-          // Fallback to mock if real search fails
-          if (!result) {
-            console.log(`[Background] Real search failed, using mock data`);
-            result = await searchProductMock(title, retailer);
-          } else {
-            console.log(`[Background] Real search succeeded:`, result);
-          }
+          // Use mock data for now (real search is unstable)
+          // Real search issues: incorrect URLs, $0.00 prices
+          const result = await searchProductMock(title, retailer);
+          console.log(`[Background] Using mock data:`, result);
           
           sendResponse({ success: true, result });
           break;

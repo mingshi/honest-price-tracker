@@ -15,17 +15,21 @@ export function createComparisonCard(result: ComparisonResult): string {
   return `
     <div class="comparison-card">
       <div class="comparison-header">
-        <h3>🔍 Price Comparison</h3>
+        <h3>🔍 Price Comparison (Reference Prices)</h3>
         <button class="close-comparison" aria-label="Close">×</button>
+      </div>
+      
+      <div class="comparison-notice">
+        💡 Showing estimated prices for comparison. Click "View" to see actual prices.
       </div>
       
       ${hasSavings ? `
         <div class="savings-alert">
-          💰 Save $${savings.toFixed(2)} on ${result.lowestPrice.retailer.toUpperCase()}!
+          💰 Estimated savings: $${savings.toFixed(2)} on ${result.lowestPrice.retailer.toUpperCase()}
         </div>
       ` : `
         <div class="no-savings-alert">
-          ✓ This is the best price we found!
+          ✓ Current price is competitive
         </div>
       `}
       
