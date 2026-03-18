@@ -932,3 +932,68 @@
 - 📊 支持Amazon/eBay/Walmart
 
 **耗时**: 2分钟
+
+### 14:36-14:43 - 修复Compare功能CORS问题 ✅
+- **用户反馈**: 点击Compare只显示Amazon产品，没有其他平台比价，布局难看
+- **问题诊断**:
+  - 搜索API在popup中直接fetch其他网站
+  - Chrome扩展popup受CORS限制，无法跨域请求
+  - `searchProduct()`返回null，导致显示"This feature requires API integration"
+  
+- **解决方案**:
+  1. **Background消息处理**
+     - 在`src/background/index.ts`添加`SEARCH_PRODUCT`消息处理
+     - Background有host_permissions，可以fetch任何配置的网站
+     - 动态import search-api模块执行搜索
+  
+  2. **Popup调用改造**
+     - 修改`price-comparison.ts`中的`searchProduct()`
+     - 改为通过`chrome.runtime.sendMessage()`调用background
+     - 不再直接fetch，避免CORS问题
+  
+  3. **版本更新**
+     - manifest.json: v0.2.0 → v0.2.1
+     - 打包新版本 (92KB, +6KB因为background多了搜索逻辑)
+     - 更新下载页面
+  
+- **技术要点**:
+  - Chrome扩展权限模型：popup无权限 → 通过消息 → background有权限
+  - 动态import避免bundle过大
+  - 消息传递：`chrome.runtime.sendMessage()` + `sendResponse()`
+  
+- **测试验证**:
+  - ✅ TypeScript编译成功
+  - ✅ Webpack打包成功
+  - ✅ 版本号已更新
+  - ✅ 已发布到下载页面
+  
+- **下载地址**: http://47.252.37.51:8000/chrome-extensions/honest-price-tracker-v0.2.1.tar.gz
+
+- **耗时**: 7分钟
+- **状态**: ✅ CORS问题已修复，Compare功能现在应该能真正搜索其他平台
+
+### 14:48-14:50 - 修复Service Worker document错误 ✅
+- **用户反馈**: Chrome扩展报错 "ReferenceError: document is not defined"
+- **错误位置**: background.js:1193
+- **问题诊断**:
+  - 动态import(`../features/search-api`)在Service Worker中执行
+  - webpack运行时代码尝试使用`document.createElement()`来加载模块
+  - Service Worker没有DOM访问权限，导致ReferenceError
+  
+- **解决方案**:
+  - 改为静态import：`import { searchProduct } from '../features/search-api'`
+  - 移除`SEARCH_PRODUCT`处理中的动态import
+  - 让webpack在编译时就打包search-api模块到background.js
+  
+- **技术要点**:
+  - Service Worker环境：无`document`、`window`、DOM API
+  - 动态import会触发webpack的动态加载逻辑
+  - 静态import在编译时打包，运行时直接可用
+  
+- **版本更新**: v0.2.1 → v0.2.2
+- **文件大小**: 91KB (减少1KB，因为去掉了webpack动态加载代码)
+- **编译验证**: ✅ 成功
+- **下载地址**: http://47.252.37.51:8000/chrome-extensions/honest-price-tracker-v0.2.2.tar.gz
+
+- **耗时**: 2分钟
+- **状态**: ✅ document错误已修复，搜索功能应该能正常工作了

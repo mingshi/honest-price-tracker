@@ -23,6 +23,8 @@ import {
   PriceAlert
 } from '../storage/db';
 
+import { searchProduct } from '../features/search-api';
+
 console.log('Honest Price Tracker background service worker loaded');
 
 // Listen for extension installation
@@ -151,7 +153,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         case 'SEARCH_PRODUCT': {
           // Search for product on other retailers (called from popup)
           const { title, retailer } = message;
-          const { searchProduct } = await import('../features/search-api');
           const result = await searchProduct(title, retailer);
           sendResponse({ success: true, result });
           break;
