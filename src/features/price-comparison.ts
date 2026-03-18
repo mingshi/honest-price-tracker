@@ -3,6 +3,9 @@
  * Searches for the same product on other retailers and compares prices
  */
 
+// Import search functionality
+import { searchProduct } from './search-api';
+
 export interface PriceComparison {
   retailer: 'amazon' | 'ebay' | 'walmart';
   productId: string;
@@ -22,27 +25,6 @@ export interface ComparisonResult {
   otherPrices: PriceComparison[];
   lowestPrice: PriceComparison;
   savings?: number; // How much you save compared to current
-}
-
-/**
- * Search for product on other retailers
- * For MVP, we'll use simple keyword search
- * TODO: Integrate with retailer APIs or web scraping service
- */
-async function searchProduct(
-  title: string,
-  retailer: 'amazon' | 'ebay' | 'walmart'
-): Promise<PriceComparison | null> {
-  // For MVP, return null (placeholder)
-  // In production, this would call search APIs or web scraping service
-  console.log(`Searching for "${title}" on ${retailer}...`);
-  
-  // TODO: Implement actual search
-  // - Option 1: Use retailer APIs (Amazon Product Advertising API, eBay Finding API)
-  // - Option 2: Use Google Shopping API
-  // - Option 3: Web scraping service (Oxylabs, ScraperAPI)
-  
-  return null;
 }
 
 /**
