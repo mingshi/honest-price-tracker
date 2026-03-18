@@ -4,6 +4,8 @@
  */
 
 import { extractAmazonProduct, isAmazonProductPage } from '../extractors/amazon';
+import { extractEbayProduct, isEbayProductPage } from '../extractors/ebay';
+import { extractWalmartProduct, isWalmartProductPage } from '../extractors/walmart';
 import { injectPriceHistory } from './inject';
 
 console.log('Honest Price Tracker content script loaded');
@@ -41,14 +43,54 @@ const extractProductData = (retailer: string) => {
       }
     
     case 'ebay':
-      // TODO: Implement eBay extractor
-      console.log('eBay extraction not yet implemented');
-      return null;
+      if (!isEbayProductPage()) {
+        console.log('Not an eBay product page');
+        return null;
+      }
+      
+      const ebayProduct = extractEbayProduct();
+      if (ebayProduct) {
+        console.log('eBay product extracted:', ebayProduct);
+        // Convert to common format
+        return {
+          productId: ebayProduct.itemId,
+          title: ebayProduct.title,
+          price: ebayProduct.price.current,
+          currency: ebayProduct.price.currency,
+          imageUrl: ebayProduct.imageUrl,
+          availability: 'Available',
+          url: ebayProduct.url,
+          retailer: 'ebay'
+        };
+      } else {
+        console.error('eBay extraction failed');
+        return null;
+      }
     
     case 'walmart':
-      // TODO: Implement Walmart extractor
-      console.log('Walmart extraction not yet implemented');
-      return null;
+      if (!isWalmartProductPage()) {
+        console.log('Not a Walmart product page');
+        return null;
+      }
+      
+      const walmartProduct = extractWalmartProduct();
+      if (walmartProduct) {
+        console.log('Walmart product extracted:', walmartProduct);
+        // Convert to common format
+        return {
+          productId: walmartProduct.productId,
+          title: walmartProduct.title,
+          price: walmartProduct.price.current,
+          currency: walmartProduct.price.currency,
+          imageUrl: walmartProduct.imageUrl,
+          availability: walmartProduct.availability || 'Unknown',
+          url: walmartProduct.url,
+          retailer: 'walmart'
+        };
+      } else {
+        console.error('Walmart extraction failed');
+        return null;
+      }
     
     default:
       console.warn(`Unknown retailer: ${retailer}`);

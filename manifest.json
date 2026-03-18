@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Honest Price Tracker",
-  "version": "0.1.0",
-  "description": "Privacy-first price tracker. No cookie hijacking. No fake coupons. Just honest price tracking.",
+  "name": "Honest Price Tracker - Compare Prices",
+  "version": "0.2.0",
+  "description": "Compare prices across Amazon, eBay & Walmart. Find the best deals. Privacy-first, no cookie hijacking.",
   "permissions": [
     "storage",
     "notifications",
