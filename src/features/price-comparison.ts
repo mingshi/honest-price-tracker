@@ -3,9 +3,6 @@
  * Searches for the same product on other retailers and compares prices
  */
 
-// Import search functionality
-import { searchProduct } from './search-api';
-
 export interface PriceComparison {
   retailer: 'amazon' | 'ebay' | 'walmart';
   productId: string;
@@ -25,6 +22,32 @@ export interface ComparisonResult {
   otherPrices: PriceComparison[];
   lowestPrice: PriceComparison;
   savings?: number; // How much you save compared to current
+}
+
+/**
+ * Search for product on other retailers
+ * This sends a message to background script which has permissions to fetch from other sites
+ */
+async function searchProduct(
+  title: string,
+  retailer: 'amazon' | 'ebay' | 'walmart'
+): Promise<PriceComparison | null> {
+  try {
+    const response = await chrome.runtime.sendMessage({
+      type: 'SEARCH_PRODUCT',
+      title,
+      retailer
+    });
+    
+    if (response.success && response.result) {
+      return response.result;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error(`Error searching ${retailer}:`, error);
+    return null;
+  }
 }
 
 /**

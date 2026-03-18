@@ -148,15 +148,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           break;
         }
         
-        case 'SEARCH_PRODUCT': {
-          // Search for product on other retailers (called from popup)
-          const { title, retailer } = message;
-          const { searchProduct } = await import('../features/search-api');
-          const result = await searchProduct(title, retailer);
-          sendResponse({ success: true, result });
-          break;
-        }
-        
         default:
           sendResponse({ success: false, error: 'Unknown message type' });
       }
@@ -188,3 +179,12 @@ chrome.notifications.onButtonClicked.addListener((notificationId, buttonIndex) =
 
 // Initialize on service worker startup
 initPriceMonitoring();
+
+        case 'SEARCH_PRODUCT': {
+          // Search for product on other retailers
+          const { title, retailer } = message;
+          const { searchProduct } = await import('../features/search-api');
+          const result = await searchProduct(title, retailer);
+          sendResponse({ success: true, result });
+          break;
+        }
